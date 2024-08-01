@@ -1,0 +1,16 @@
+Idea: satyam343Editorial: satyam343
+**Hint 1**
+For integers $$$x$$$ ($$$\lfloor \frac{n}{2} \rfloor < x \leq n$$$), there does not exist integer $$$y$$$ ($$$y > x$$$) such that $$$y$$$ is divisible by $$$x$$$.
+**Solution**
+Consider the permutation $$$p$$$ such that $$$p=[1, n, 2, n - 1, \ldots \lceil \frac{n+1}{2} \rceil]$$$. It is valid. Why?
+**Proof**
+We have $$$\max(p_a, p_{a+1}) > \lfloor \frac{n}{2} \rfloor$$$ for all $$$1 \leq a < n - 1$$$. So we cannot ever have a pair of integers ($$$a,b$$$) such that:
+$$$1 \leq a < n - 1$$$
+$$$1 \leq b < n$$$
+$$$a \neq b$$$
+$$$p_a$$$ divides $$$p_b$$$ and $$$p_{a+1}$$$ divides $$$p_{b+1}$$$
+Now, we just need to check for $$$a = n - 1$$$. First of all, notice that $$$p_a$$$ does not divide $$$p_1$$$.
+There does not exist an integer $$$b$$$ ($$$2 \leq b < n - 1$$$) such that $$$p_{a+1}$$$ divides $$$p_{b+1}$$$ as $$$2 \cdot p_{a+1} \ge n$$$ and $$$p_{c+1} < n$$$ for all $$$c$$$ ($$$2 \leq c < n - 1$$$).
+Note that we covered all possible pairs of indices and did not find two  indices $$$i$$$ and $$$j$$$ ($$$1 \leq i, j < n$$$; $$$i \neq j$$$) such that $$$p_i$$$ divides $$$p_j$$$ and $$$p_{i+1}$$$ divides $$$p_{j+1}$$$.
+
+video editorial by aryanc403

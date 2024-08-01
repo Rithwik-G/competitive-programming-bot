@@ -1,0 +1,40 @@
+
+
+**Note: The memory limit for this problem is 512MB, twice the default.**
+After years of hosting games and watching Bessie get first place over and over,
+Farmer John has realized that this can't be accidental. Instead, he concludes
+that Bessie must have winning coded into her DNA so he sets out to find this
+"winning" gene.
+
+He devises a process to identify possible candidates for this "winning" gene. He
+takes Bessie's genome, which is a string $S$ of length $N$ where
+$1 \leq N \leq 3000$. He picks some pair $(K,L)$ where $1 \leq L \leq K \leq N$
+representing that the "winning" gene candidates will have length $L$ and will be
+found within a larger $K$ length substring. To identify the gene, he takes all
+$K$ length substrings from $S$ which we will call a $k$-mer. For a given
+$k$-mer, he takes all length $L$ substrings, identifies the lexicographically
+minimal substring as a winning gene candidate (choosing the leftmost such
+substring if there is a tie),  and then writes down the $0$-indexed position
+$p_i$ where that substring starts in $S$ to a set $P$. 
+
+Since he hasn't picked $K$ and $L$ yet, he wants to know how many candidates
+there will be for every pair of $(K,L)$.
+
+For each $v$ in $1\dots N$, help him determine the number of $(K,L)$ pairs with
+$|P|=v$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+$N$ representing the length of the string. $S$ representing the given string.
+All characters are guaranteed to be uppercase characters where $s_i \in A-Z$
+since bovine genetics are far more advanced than ours.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+For each $v$ in $1\dots N$, output the number of $(K,L)$ pairs with $|P|=v$,
+with each number on a separate line.
+
+SCORING:
+Inputs 2-4: $N \leq 100$ Inputs 5-7: $N \leq 500$ Inputs 8-16: No additional constraints. 
+
+
+Problem credits: Suhas Nagar
+

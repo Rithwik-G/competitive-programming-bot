@@ -1,0 +1,18 @@
+**Hint**
+Try using the divide-and-conquer approach.
+**Tutorial**
+Let $$$f(n, k)$$$ be a function to solve the problem, which will return three values $$$(l, r, ans)$$$ such that:
+ $$$l$$$ — for the first $$$l$$$ numbers (i.e. from $$$0$$$ to $$$l - 1$$$) $$$bit(x) \le k$$$ holds, while $$$bit(l) > k$$$ or $$$l \ge n$$$; 
+ $$$r$$$ — for the last $$$r$$$ numbers (i.e. from $$$n - r$$$ to $$$n - 1$$$) $$$bit(x) \le k$$$ holds, while $$$bit(n - r - 1) > k$$$ or $$$n - r - 1 < 0$$$; 
+ $$$ans$$$ — the answer for the pair $$$(n, k)$$$. 
+Let's use the "divide and conquer" approach. Divide the segment from $$$0$$$ to $$$n$$$ into two segments:
+ from $$$0$$$ to $$$2^{m} - 1$$$, where $$$m$$$ is the maximum such that $$$2^{m} < n$$$; 
+ from $$$2^{m}$$$ to $$$n - 1$$$. 
+It can be noticed that instead of calculating the function on the segment from $$$2^{k}$$$ to $$$n - 1$$$, it is possible to calculate it from $$$0$$$ to $$$n - 1 - 2^{m}$$$, but with a smaller $$$k$$$.
+More formally, $$$f(n, k)$$$ can be recalculated through $$$f(2^{m}, k)$$$ and $$$f(n - 2^{m}, k - 1)$$$.
+Based on the pair of triples $$$(l_{1}, r_{1}, ans_{1})$$$, which is obtained after calculating $$$f(2^{m}, k)$$$ and $$$(l_{2}, r_{2}, ans_{2})$$$, which is obtained after calculating $$$f(n - 2^{m}, k - 1)$$$, it is quite trivial to recalculate the triple for $$$f(n, k)$$$ using the formula in $$$O(1)$$$.
+However, the solution still works in $$$O(n)$$$ time, as we will have a complete binary tree of recursive calls.
+To fix this, it is only necessary to precalculate all $$$f(2^{m}, k)$$$ for each possible $$$k$$$ and $$$m$$$. For $$$f(2^{m}, k)$$$, it can be noticed that it is recalculated through $$$f(2^{m - 1}, k)$$$ and $$$f(2^{m - 1}, k - 1)$$$, so all values can be calculated using dynamic programming.
+After this, in the recursive function, we always calculate $$$f(2^{m}, k)$$$ in $$$O(1)$$$, and for the next call, the first argument is halved, so now everything works in $$$O(\log n)$$$ for one test case.
+In total, the solution is in $$$O(\log n)$$$ for the test case.
+**Solution (FelixArg)**

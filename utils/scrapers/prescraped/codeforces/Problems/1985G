@@ -1,0 +1,1 @@
+Let D(n) represent the sum of digits of n. For how many integers n where 10l≤n<10r satisfy D(k⋅n)=k⋅D(n)? Output the answer modulo 109+7.

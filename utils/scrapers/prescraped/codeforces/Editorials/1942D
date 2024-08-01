@@ -1,0 +1,11 @@
+Problem Credits: sum Analysis: sum
+**Hint 1**
+We can solve this with dynamic programming. Let $$$\texttt{dp}[i]$$$ store a list of all $$$\min(k, 2^i)$$$ highest beauties of a painting in  order if you only paint cells $$$1,2,\ldots ,i$$$. 
+**Hint 2**
+Transitioning boils down to finding the $$$k$$$ largest elements from $$$n$$$  lists. Try to do this in $$$\mathcal{O}((n + k) \log n)$$$ time.
+**Solution**
+Let $$$\texttt{dp}[i]$$$ store a list of all $$$\min(k, 2^i)$$$ highest beauties of a painting in  order if you only paint cells $$$1,2,\ldots ,i$$$. 
+Let's define  two lists as creating a new list that stores the $$$k$$$ highest values from the two lists. 
+First, let's look at a slow method of transitioning. We iterate over the left endpoint $$$l$$$ such that $$$l \ldots i$$$ is a maximal painted interval. At each $$$l$$$, we merge $$$\texttt{dp}[l - 2]$$$, with $$$a_{l,i}$$$ added to each value, into $$$\texttt{dp}[i]$$$. We also merge $$$\texttt{dp}[i - 1]$$$ into $$$\texttt{dp}[i]$$$ to handle the case in which we do not paint cell $$$i$$$. If implemented well, transitioning takes $$$\mathcal{O}(nk)$$$ time leading to an $$$\mathcal{O}(n^2k)$$$ solution which is too slow.
+We can speed this up. This merging process boils down to finding the $$$k$$$ largest elements from $$$n$$$  lists in $$$\mathcal{O}((n + k) \log n)$$$ time. We can use a priority queue that stores ($$$\texttt{element}, \texttt{index}$$$) for each list. We can do the following $$$k$$$ times: add the top of the priority queue to our answer, advance its index, and update the priority queue accordingly. This allows us to transition in $$$\mathcal{O}((n + k) \log n)$$$ time which leads to an $$$\mathcal{O}((n^2 + nk) \log n)$$$ solution.
+Bonus: find an $$$\mathcal{O}(n^2 + k)$$$ solution.

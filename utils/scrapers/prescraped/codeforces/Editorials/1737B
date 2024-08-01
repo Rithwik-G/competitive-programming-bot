@@ -1,0 +1,8 @@
+Author: low_
+**Tutorial**
+We shift the perspective to see the pattern from $$$\lfloor \sqrt{x} \rfloor$$$, instead of $$$x$$$, to see what kind of patterns are needed so $$$x$$$ can be luxurious.
+Note that: $$${(a + 1)}^2 - 1 = a * (a + 2)$$$.
+Therefore, every half-closed segment $$$[a^2, (a + 1) ^ 2)$$$ contains  $$$3$$$ luxurious number: $$$a^2$$$, $$$a * (a + 1)$$$ and $$$a * (a + 2)$$$.
+Also note that, since large numbers can cause inaccuracies in floating point computation, we should use binary search to find the floor-value of a square root, instead of using the sqrt function in any language.
+
+**Solution snippet (low_, C++)**

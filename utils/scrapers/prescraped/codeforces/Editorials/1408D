@@ -1,0 +1,3 @@
+Let's define as $$$x$$$ our move to the right and as $$$y$$$ our move to the up. For all pairs $$$(i, j)$$$ of (robber, searchlight) at least one of this should be true: $$$x + a_i > c_j$$$, $$$y + b_i > d_j$$$. So if $$$x \leq c_j - a_i$$$ then $$$y \geq d_j - b_i + 1$$$.
+Let's make an array $$$r$$$ of length $$$C = 10^6$$$ and write on each position of $$$x$$$ the minimum value of $$$y$$$. For each $$$(i, j)$$$ we should make $$$r_x = max(r_x, d_j - b_i + 1)$$$ for all $$$x \leq c_j - a_i$$$. So we have $$$nm$$$ queries of $$$max=$$$ on prefix. We can do it using suffix maximums. After we will calculate all $$$a_x$$$ the answer is $$$\min\limits_{x}{(x + r_x)}$$$.
+Time complexity: $$$O(nm + C)$$$.

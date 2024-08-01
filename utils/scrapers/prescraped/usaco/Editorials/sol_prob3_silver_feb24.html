@@ -1,0 +1,65 @@
+Subtask 1: $M \leq 16$:
+For this subtask, it suffices to iterate through all of Elsie's $2^M$ candidate
+turn sequences in lexicographical order. If with Elsie's current candidate turn
+sequence, she is guaranteed to not lose, output the current sequence, and exit. 
+It remains to describe how to check whether Elsie is guaranteed to not lose with
+a given candidate turn sequence. Given Elsie's guess $p$ for a turn $t$, the
+best response for Bessie is the one that causes Elsie to lose the most marbles
+on that turn (or gain the least marbles if none of Bessie's responses can cause
+Elsie to lose marbles on that turn). Define $\texttt{changes}[t][p]$ to be the
+amount $N$ will change on turn $t$ if Elsie guesses parity $p$ and Bessie moves
+optimally. After precomputing all entries of $\texttt{changes}$ in $O(MK)$ time,
+we can check whether a given turn  sequence causes Elsie to not lose in $O(M)$
+time. 
+The overall time complexity is
+$O(MK+M\cdot 2^M)$.
+Implementation (Python):
+
+Subtask 2: $M\le 1000$
+To remove the $O(M\cdot 2^M)$ from the time complexity, we can make the
+following optimization to the function
+$\texttt{find_best_move_seq_starting_with}(seq)$ from the above solution code:
+if there is no sequence of moves starting with $seq$ that allows Elsie to not
+lose, then immediately return. To check whether such a sequence exists or not,
+we assume that for every turn after $|seq|$, Elsie guesses the parity that
+causes her to gain the most marbles, assuming Bessie responds optimally.  If
+this allows Elsie to not lose, then a sequence exists. Otherwise, no sequence
+exists, since Elsie lost despite always making the best move after $seq$. This
+can be checked in $O(M)$ time.
+After adding the optimization, the function
+$\texttt{find_best_move_seq_starting_with}$  is called $O(M)$ times rather than
+$O(2^M)$ times, because if $\texttt{find_best_move_seq_starting_with}(seq)$ does
+not immediately return, then
+If there is a move sequence starting with $seq + [0]$, then the answer will
+be found after calling
+$\texttt{find_best_move_seq_starting_with}(seq + [0])$.Otherwise, $\texttt{find_best_move_seq_starting_with}(seq + [0])$
+immediately returns and the answer will be found after calling
+$\texttt{find_best_move_seq_starting_with}(seq + [1])$.
+The overall time complexity is $O(MK+M^2)$.
+Implementation with recursion:
+
+Implementation without recursion:
+
+Full solution:
+To reduce $O(M^2)$ to $O(M)$ time, we need to speed up the function
+$\texttt{cannot_start_with}(seq)$ from the above solution code. This function
+checks the following two conditions:
+$N+\sum_{t=0}^{l-1}\texttt{changes}[t][seq[t]]>0$ for all $l < |seq|$.$N+\sum_{t=0}^{|seq|-1}\texttt{changes}[t][seq[t]] + \sum_{t=|seq|}^{l-1}\max(\texttt{changes}[t][0], \texttt{changes}[t][1])>0$
+for all $|seq|\le l\le M$.
+Suppose that the first condition already holds; then the second condition holds
+if and only if the minimum prefix sum (including the empty prefix) of the array 
+
+is greater than some threshold. Let $\texttt{min_psum}[t]$ denote the minimum
+prefix sum when $|seq| = t$; then we have
+$\texttt{min_psum}[t]=\min(0, \max(\texttt{changes}[t]) + \texttt{min_psum}[t+1])$
+for $t<M$. So $\texttt{min_psum}[t]$ can be computed for all $t$ in reverse
+order in $O(M)$ time.
+The full solution is now clear; it is the same as the non-recursive solution to
+the previous subtask but replacing the call to $\texttt{cannot_start_with}(seq)$
+with a comparison involving the current value of $N$ and
+$\texttt{min_psum}$.
+The overall time complexity is $O(MK)$.
+My Implementation:
+
+Danny Mittal's Implementation (Java):
+

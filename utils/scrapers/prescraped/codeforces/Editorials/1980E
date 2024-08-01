@@ -1,0 +1,5 @@
+Idea: senjougaharin Prepared by: senjougaharin
+**Tutorial**
+For each element, you can calculate its positions in both matrices. You can see that the rearrangement of rows does not affect the column positions of the elements being rearranged. Similarly, column rearrangement does not affect row positions. Since the permutation of rows affects the entire rows, for all elements that have the same position row in the original matrix, the position row in the resulting matrix must also match. Similarly, the columns must match.
+In order to check the coincidence of rows and columns, let's count 4 arrays — the positions of rows and columns in the original and received matrices. Then you need to check that for all $$$x$$$ with the same row value in the original matrix, the row values in the resulting matrix are the same. Similarly, the values of the columns should be the same.
+**Solution**

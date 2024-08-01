@@ -1,0 +1,15 @@
+Author: hugopm
+**Tutorial**
+
+Let's try to maintain representative positions for each value. In the beginning, when we know nothing, every position can be a potential representative.
+We will call them , and using queries, we will try to kill some positions and ending up with exactly one alive position per value. The answer will be the number of alive positions.
+Note that when we kill a position, there must be another alive position with the same value. The danger here is to compare a position to a dead position of the same value: we may end up killing the single representative of the value.
+Create blocks of size $$$\frac{k}{2}$$$, (or $$$1$$$ if $$$k = 1$$$). Query $$$1, 2, \ldots, n$$$ and kill the element if you get Yes answer. Each value has at least one alive occurrence, its leftmost one. Moreover, all equalities inside blocks are removed.
+In order to remove equalities between blocks, compare all unordered pairs of blocks (for each pair, reset the memory, look all elements in the first one, then all elements in the second one, and kill elements in the second one for each Yes answer). Note that we don't need to compare adjacent blocks. The number of queries is a bit less than $$$\frac{2n^2}{k}$$$.
+
+Querying $$$1, 2, \ldots, n$$$ allowed us to compare pairs $$$(i, i+1)$$$ in a very efficient manner because we reuse the memory of the previous comparison. Let's try to generalize this.
+Consider a complete graph where nodes are blocks. Comparing pairs of blocks can be seen as covering edges of the graph. We can take any  path (that doesn't pass through a node twice), reset the memory and explore blocks in the corresponding order (killing elements for each Yes answer).
+Each path will require $$$(\text{number of edges} + 1) \cdot \frac{k}{2}$$$ queries. It's optimal to have disjoint paths (if a path goes through an already visited edge, we can split it there). Hence, we want to use a few disjoint paths to cover all edges.
+A randomized DFS works experimentally well (constant around $$$1.2$$$).
+However, we can acheive constant $$$1$$$ using the following zig-zag pattern: $$$s \rightarrow s-1 \rightarrow s+1 \rightarrow s-2 \rightarrow s+2 \rightarrow \ldots$$$.
+**Implementation**

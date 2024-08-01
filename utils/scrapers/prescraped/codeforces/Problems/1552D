@@ -1,0 +1,1 @@
+You are given a sequence of n integers a1,a2,…,an.Does there exist a sequence of n integers b1,b2,…,bn such that the following property holds?  For each 1≤i≤n, there exist two (not necessarily distinct) indices j and k (1≤j,k≤n) such that ai=bj−bk.

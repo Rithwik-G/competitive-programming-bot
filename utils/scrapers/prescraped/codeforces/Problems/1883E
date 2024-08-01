@@ -1,0 +1,1 @@
+You are given an array of integers a1,a2,…,an. You need to make it non-decreasing with the minimum number of operations. In one operation, you do the following: Choose an index 1≤i≤n, Set ai=ai⋅2.An array b1,b2,…,bn is non-decreasing if bi≤bi+1 for all 1≤i<n.

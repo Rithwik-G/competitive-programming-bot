@@ -1,0 +1,58 @@
+USER: https://codeforces.com/problemset/problem/1474/E
+
+BOT: Thanks! Now could you provide a link to the editorial.
+
+
+
+USER: https://codeforces.com/blog/entry/86933
+
+BOT: Would you like hints to help you solve the problem or an interactive explanation of the editorial (hint/editorial)? 
+
+
+
+USER: editorial
+
+BOT: **Hint 1**
+Hint $$$1$$$: How many operations will robot make in the worst case?
+**Hint 2**
+Hint $$$2$$$: How many times can robot spend $$$(n - 1)^2$$$ time on $$$1$$$ operation?
+**Hint 3**
+Hint $$$3$$$: How many times can robot spend $$$(n - 2)^2$$$ time on $$$1$$$ operation? It is easyer to think about number of operations with time greater or equal to $$$(n - 2)^2$$$.
+**Hint 4**
+Hint $$$4$$$: Instead of operation from the statement we can apply the following operation to $$$q$$$ which is initially an identity permutation:
+Select $$$i$$$ such that $$$q_i = i$$$ and any $$$j$$$ and swap $$$q_i$$$ and $$$q_j$$$ in $$$(j - i) ^ 2$$$ seconds.
+Then we make $$$p$$$ = $$$q$$$ and do operations in reversed order.
+**Editorial**
+Hint $$$1$$$: How many operations will robot make in the worst case?
+Hint $$$2$$$: How many times can robot spend $$$(n - 1)^2$$$ time on $$$1$$$ operation?
+Hint $$$3$$$: How many times can robot spend $$$(n - 2)^2$$$ time on $$$1$$$ operation? It is easyer to think about number of operations with time greater or equal to $$$(n - 2)^2$$$.
+Hint $$$4$$$: Instead of operation from the statement we can apply the following operation to $$$q$$$ which is initially an identity permutation:
+ Select $$$i$$$ such that $$$q_i = i$$$ and  $$$j$$$ and swap $$$q_i$$$ and $$$q_j$$$ in $$$(j - i) ^ 2$$$ seconds. 
+Then we make $$$p$$$ = $$$q$$$ and do operations in reversed order.
+Solution:
+If we can select $$$i$$$ and $$$j$$$ for an operation, $$$p_j \neq j$$$.
+After every operation, there is at least one more element with $$$p_i = i$$$, so after $$$n - 1$$$ operations at least $$$n - 1$$$ elements are on their places. The remaining element can be only on its own place, so we can't do more than $$$n - 1$$$ operations.
+Let's now count number of operations that takes $$$(n - 1)^2$$$ time. It is only a swap of $$$1$$$-st and $$$n$$$-th elements. If we did it, $$$p_1 = 1$$$ or $$$p_n = n$$$ so we can't use it one more time. Let's generalize it. If we are calculating number of operations that takes $$$(n - k)^2$$$ time, let's look at the first $$$k$$$ elements and at the last $$$k$$$ elements. Any operation that takes greater or equal then $$$(n - k)^2$$$ seconds, uses two of this elements. So, after $$$2k - 1$$$ operations $$$2k - 1$$$ of this elements will be on their places and we can't use one more operation of this type. 
+So, $$$answer \leq (n - 1)^2 + (n - 2)^2 + (n - 2)^2 + (n - 3)^2 + \cdots$$$. There are $$$n - 1$$$ terms, each $$$(n - k)^2$$$ appears $$$2$$$ times, except $$$(n - 1)^2$$$ and last term (depends on parity of $$$n - 1$$$).
+We can construct example, where robot will spend exactly $$$(n - 1)^2 + (n - 2)^2 + (n - 2)^2 + (n - 3)^2 + \cdots$$$ second as follows (using idea from hint $$$4$$$):
+ If $$$n$$$ is even, $$$answer = (n - 1)^2 + \cdots + (n - n / 2)^2 + (n - n / 2)^2$$$. Let's look at the example with $$$n = 6$$$:  Set $$$q = [1, 2, 3, 4, 5, 6]$$$.  Swap $$$q_1$$$ and $$$q_n$$$ in $$$25$$$ seconds, $$$q = [6, 2, 3, 4, 5, 1]$$$.  Swap $$$q_1$$$ and $$$q_{n-1}$$$ in $$$16$$$ seconds, $$$q = [5, 2, 3, 4, 6, 1]$$$.  Swap $$$q_2$$$ and $$$q_n$$$ in $$$16$$$ seconds, $$$q = [5, 1, 3, 4, 6, 2]$$$.  Swap $$$q_1$$$ and $$$q_{n-2}$$$ in $$$9$$$ seconds, $$$q = [4, 1, 3, 5, 6, 2]$$$.  Swap $$$q_3$$$ and $$$q_n$$$ in $$$9$$$ second, $$$q = [4, 1, 2, 5, 6, 3]$$$.  In general, we swap $$$1$$$-st and $$$n$$$-th elements on the first operation and then move elements $$$2, n-1, 3, n-2, 4, n-3, ...$$$ to the further end of $$$q$$$. 
+ Set $$$q = [1, 2, 3, 4, 5, 6]$$$. 
+ Swap $$$q_1$$$ and $$$q_n$$$ in $$$25$$$ seconds, $$$q = [6, 2, 3, 4, 5, 1]$$$. 
+ Swap $$$q_1$$$ and $$$q_{n-1}$$$ in $$$16$$$ seconds, $$$q = [5, 2, 3, 4, 6, 1]$$$. 
+ Swap $$$q_2$$$ and $$$q_n$$$ in $$$16$$$ seconds, $$$q = [5, 1, 3, 4, 6, 2]$$$. 
+ Swap $$$q_1$$$ and $$$q_{n-2}$$$ in $$$9$$$ seconds, $$$q = [4, 1, 3, 5, 6, 2]$$$. 
+ Swap $$$q_3$$$ and $$$q_n$$$ in $$$9$$$ second, $$$q = [4, 1, 2, 5, 6, 3]$$$. 
+ If $$$n$$$ is odd, $$$answer = (n - 1)^2 + \cdots + (n - \lceil{n/2}\rceil)^2$$$. The only difference from even case is element in the center. For example, if $$$n = 7$$$ we will do the following operations:  $$$q = [1, 2, 3, 4, 5, 6, 7]$$$. Swap $$$q_1$$$ and $$$q_n$$$.  $$$q = [7, 2, 3, 4, 5, 6, 1]$$$. Swap $$$q_1$$$ and $$$q_{n - 1}$$$.  $$$q = [6, 2, 3, 4, 5, 7, 1]$$$. Swap $$$q_2$$$ and $$$q_n$$$.  $$$q = [6, 1, 3, 4, 5, 7, 2]$$$. Swap $$$q_1$$$ and $$$q_{n - 2}$$$.  $$$q = [5, 1, 3, 4, 6, 7, 2]$$$. Swap $$$q_3$$$ and $$$q_n$$$.  $$$q = [5, 1, 2, 4, 6, 7, 3]$$$. Finally, swap $$$q_1$$$ and $$$q_{\lceil{n/2}\rceil}$$$.  $$$q = [4, 1, 2, 5, 6, 7, 3]$$$.  
+ $$$q = [1, 2, 3, 4, 5, 6, 7]$$$. Swap $$$q_1$$$ and $$$q_n$$$. 
+ $$$q = [7, 2, 3, 4, 5, 6, 1]$$$. Swap $$$q_1$$$ and $$$q_{n - 1}$$$. 
+ $$$q = [6, 2, 3, 4, 5, 7, 1]$$$. Swap $$$q_2$$$ and $$$q_n$$$. 
+ $$$q = [6, 1, 3, 4, 5, 7, 2]$$$. Swap $$$q_1$$$ and $$$q_{n - 2}$$$. 
+ $$$q = [5, 1, 3, 4, 6, 7, 2]$$$. Swap $$$q_3$$$ and $$$q_n$$$. 
+ $$$q = [5, 1, 2, 4, 6, 7, 3]$$$. Finally, swap $$$q_1$$$ and $$$q_{\lceil{n/2}\rceil}$$$. 
+ $$$q = [4, 1, 2, 5, 6, 7, 3]$$$. 
+**Solution**
+104840536
+Let me know if you have any questions.
+
+
+

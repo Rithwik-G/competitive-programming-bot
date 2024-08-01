@@ -1,0 +1,81 @@
+Subtask 1: $N \leq 100$ ($O(N^5)$)
+For this problem, we can apply a brute force to simulate the process described
+in the problem statement for every $(K,L)$ pair. We can iterate through all $K$
+length substrings, and find the lexicographic minimum out of all $L$ length
+substrings contained within. We can then count the number of unique "winning"
+gene positions and add it to a larger array.
+Note that while the time complexity of this brute force is $O(N^5)$, there is a
+small fractional constant factor due to the restrictions on $K$ and $L$ and the
+number of valid substrings given $K$, so $N=100$ runs comfortably in the TL.  
+Benjamin Qi's Python code:
+
+Subtask 1 / 2: $N \leq 500$ ($O(N^4)$)
+For this subtask, we can switch how we think about this problem. Instead of
+determining how many "winning" gene positions a given $(K,L)$ pair has, we can
+instead focus on some position $p_i$ and determine which $(K,L)$ pairs that
+$p_i$ is a "winning" position for.
+Let us fix some position $p_i$ and some length $L$. We want to determine what
+conditions on $K$ are necessary for $p_i$ to be a winning position. The first
+observation we can make is that $p_i$ is a winning position as long as there
+exists some window of $K$ characters where $S[p_i:p_i+L]$ is lexicographically
+minimal. Let $a_i$ be the maximum position such that  $a_i < p_i$ and
+$S[a_i:a_i+L] \leq S[p_i:p_i+L]$ and let $b_i$ be the minimum positions such
+that $b_i > p_i$ and $S[b_i:b_i+L] < S[p_i:p_i+L]$ (note our first equation uses
+$\leq$ due to the tiebreaker condition favoring smaller indices). 
+We can always identify a window of $K$ characters where $p_i$ is winning as long
+as our window doesn't "include" the ranges $[a_i:a_i+L]$ and $[b_i:b_i+L]$. In
+other words, any $K$ where $K \leq (b_i+L)-a_i-2$ makes $p_i$ a winning
+position.
+Now that we have identified how to determine valid $K$ given $p_i$ and $L$, we
+can create our solution from here. We can iterate over all $p_i$ and $L$. To
+determine $a_i$ and $b_i$, we can iterate over all $L$ length substrings until
+we identify $a_i$ or $b_i$ that satisfy the above conditions. If none exist, we
+can use $-1$ for $a_i$ and $N$ for $b_i$. 
+Since we iterate over the string to find $a_i$ and $b_i$ for every position
+$p_i$ and length $L$, and we call the substring function repeatedly, the time
+complexity of this solution is $O(N^4)$. However, this ends up running fast
+enough to pass subtask 2 in practice.
+My Java code:
+
+Subtask 2 / Subtask 3 Partial: $O(N^3)$
+To improve on the last subtask, we want to improve our compare function. To do
+this, we can precompute a longest common prefix (lcp) array that stores
+for positions $i$ and $j$ the  largest value $k$ such that
+$S[i:i+k] = S[j:j+k]$. If we had this array, we could compare any two substrings
+at positions $i$ and $j$ in $O(1)$ without using the substring function by 
+comparing the characters at $S[i+lcp[i][j]]$ and $S[j+lcp[i][j]]$ or returning a
+tie if $lcp[i][j] \geq k$ (since we only take the first $k$ characters at both
+positions.
+To compute this array, we can naively compute this array by finding the lcp for
+every pair of indices.
+Now that the cost of comparing strings is reduced, we need to improve the
+complexity of computing valid $K$ for every value of $L$. The first observation
+we make is that $a_i$ is monotonically decreasing for increasing value of $L$.
+Suppose this was not the case. This would mean that for some $L_1 < L_2$,
+$S[a_i:a_i+L_1] > S[p_i:p_i+L_1]$ but $S[a_i:a_i+L_2] \leq 
+S[p_i:p_i+L_2]$. If one string is less than another string of equal length, 
+this will continue to hold even if we extend both strings by a character, so we
+form a contradiction here.
+Similarly we can make the same observation for $b_i$. Since it would be
+monotonically decreasing for increasing values of $L$, it would be monotonically
+increasing for decreasing values of $L$. Consequently, we can compute $a_i$ and
+$b_i$ for every value of $L$ in $O(N)$ using a pointer.
+Finally, in our previous solution we used a for loop to set every value of
+$L \leq k \leq b_i+L-a_i-2$ as valid. Instead, we can use prefix sums to
+increment a range up to $b_i+L-a_i-2$ in $O(1)$. While most of our computation
+is quick, we are bottlenecked by the LCP computation, so this solution runs in
+$O(N^3)$.
+Depending on your implementation, you might also be able to pass many of the
+last batch of test cases using a solution of this complexity.
+My Java code:
+
+Full Solution
+To speed up our solution to $O(N^2)$, we need to speed up our LCP array
+precomputation. However, instead of computing it naively, we can avoid  extra
+computations by leveraging the following property. If we know $LCP[i+1][j+1]$,
+we can determine $LCP[i][j]$ depending on if character $i$ is equal to character
+$j$. This motivates working backwards to compute LCP, using the following
+recurrence.
+
+My Java code:
+

@@ -1,0 +1,41 @@
+
+
+**Note: The memory limit for this problem is 512MB, twice the default.**
+Bessie is having fun playing a famous online game, where there are a bunch of
+cells of different labels and sizes. Cells get eaten by other cells until only
+one winner remains.
+
+There are $N$ ($2\le N\le 5000$) cells in a row labeled $1\dots N$ from left to
+right, with initial sizes $s_1,s_2,\dots,s_N$ ($1\le s_i\le 10^5$). While there
+is more than one cell, a pair of adjacent cells is selected uniformly at random
+and merged into a single new cell according to the following rule: 
+
+If a cell with label $a$ and current size $c_a$ is merged with a cell with label
+$b$ and current size $c_b$, the resulting cell has size $c_a+c_b$ and label
+equal to that of the larger cell, breaking ties by larger label. Formally, the
+label of the resulting cell is
+$\begin{cases}
+a & c_a > c_b \\
+b & c_a < c_b \\
+\max(a,b) & c_a = c_b
+\end{cases}.$
+
+For each label $i$ in the range $1\dots N$, the probability that the final cell
+has label $i$ can be expressed in the form $\frac{a_i}{b_i}$ where
+$b_i\not\equiv 0\pmod{10^9+7}$. Output $a_ib_i^{-1}\pmod{10^9+7}$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+The first line contains $N$.
+
+The next line contains $s_1,s_2,\dots, s_N$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+The probability of the final cell having label $i$ modulo $10^9+7$ for each $i$ in $1\dots N$ on
+separate lines.
+
+SCORING:
+Input 3: $N\le 8$Inputs 4-8: $N\le 100$Inputs 9-14: $N\le 500$Inputs 15-22: No additional constraints.
+
+
+Problem credits: Benjamin Qi
+

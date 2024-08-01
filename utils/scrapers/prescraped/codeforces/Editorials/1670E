@@ -1,0 +1,11 @@
+**Tutorial**
+Let's look at the minimum maximum value that we can get if we have an array of numbers from $$$[1,2^{(p+1)}-1]$$$ and we are trying to get any prefix xor, the answer will be $$$2^p$$$ because you can stop at the first integer that will have the bit $$$p$$$ so the answer will be $$$\geq 2^p$$$. 
+We can apply the same concept here, for any arrangement we can start at the root and stop at the first node/edge that has the bit $$$p$$$ on. Let's try to find a construction that will make our answer always $$$2^p$$$. This is one of the valid ways. 
+ Select an arbitrary root. 
+ Put $$$2^p$$$ at the root. 
+ Create $$$2^p-1$$$ pairs from the remaining numbers of the form $$$(x,x+2^p)$$$ where $$$x < 2^p$$$ 
+ For every node we will do the following:  If its parent has the bit $$$p$$$ in its value the node will take the value $$$x$$$ and the edge to the parent will take $$$x+2^p$$$.  If its parent doesn't have the bit $$$p$$$ in its value the node will take the value $$$x+2^p$$$ and the edge to the parent will take $$$x$$$. Using this construction you will find that the xor value form the root will alternate between $$$0$$$ and $$$2^p$$$ and $$$x$$$ which is always $$$ \le 2^p$$$ . 
+ If its parent has the bit $$$p$$$ in its value the node will take the value $$$x$$$ and the edge to the parent will take $$$x+2^p$$$. 
+ If its parent doesn't have the bit $$$p$$$ in its value the node will take the value $$$x+2^p$$$ and the edge to the parent will take $$$x$$$. 
+Using this construction you will find that the xor value form the root will alternate between $$$0$$$ and $$$2^p$$$ and $$$x$$$ which is always $$$ \le 2^p$$$ . 
+**Solution**

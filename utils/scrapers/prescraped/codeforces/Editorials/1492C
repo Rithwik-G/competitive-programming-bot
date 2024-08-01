@@ -1,0 +1,5 @@
+For some subsequence of the string $$$s$$$, let $$$p_i$$$ denote the position of the character $$$t_i$$$ in the string $$$s$$$. For fixed $$$i$$$, we can find a subsequence that maximizes $$$p_{i + 1} - p_i$$$. 
+Let $$$\textit{left}_{i}$$$ and $$$\textit{right}_{i}$$$ be the minimum and maximum possible value of $$$p_i$$$ among all valid $$$p$$$s. Now, it is easy to see that the maximum possible value of $$$p_{i+1} - p_{i}$$$ is equal to $$$\textit{right}_{i + 1} - \textit{left}_{i}$$$. 
+To calculate $$$\textit{left}_i$$$ we just need to find the first element after $$$\textit{left}_{i - 1}$$$ which is equal to $$$t_i$$$. This can be done by a simple greedy or dp algorithm. $$$\textit{right}_i$$$ can be found in the same way. 
+So, after finding $$$\textit{left}$$$ and $$$\textit{right}$$$, the answer is $$$\max_{i=1}^{i=n-1} \textit{right}_{i + 1} - \textit{left}_i$$$.
+Complexity: $$$O(n + m)$$$.

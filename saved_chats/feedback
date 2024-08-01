@@ -1,0 +1,42 @@
+FEEDBACK #11: this bot is very helpful.  the problem i felt till now are :-
+1) if my approach is slightly deviate from editorial then the bot says clearly that is approach is not in editorial . if the bot tell me where my approch is deviating or give me some testcase where my approach fails . or tell me any erro in my bot  
+
+FEEDBACK #12: This is a really good bot... Better than what I had expected and this would be really helpful to everyone.
+The things are liked were
+1) It took understood our suggestions and used to give better responses 
+
+FEEDBACK #12: 2) It gave answers that were not directly stated in the editorial, like time complexity for finding the submatrix difference for each submatrix. that was really good.
+
+FEEDBACK #12: 3) The most surprising part for me is it understood what 'A' stands for in the time complexity. How did it do that? I still don't understand. It was very impressive. Was 'A' mentioned somewhere and i missed it?
+
+FEEDBACK #12: A minor suggestion for improvement, when I asked for a small hint for whether knowledge of diophantine equations are required to solve the problem, it would have been better if the answer was yes/no. The bot can also ask the user whether some more hint should be revealed, and then, if user says yes, it could have stated the response: "Focus on calculating the current difference between the heights of the two types of mountains and how this difference changes when you transform submatrices.". Then when asked to reveal more hints, it could have stated the full hint it gave me originally to the question. 
+Basically reveal the hints in layers starting with yes/no, if the user wants it that way.
+
+FEEDBACK #13: Another suggestion: currently the bot only parses the official editorial, but perhaps in future it an also learn from the comments? Maybe only from the comments/threads of high rated users ? for example in the question of global round 9, problem C, it correctly identifies the official solution but fails when i present the solution in a different way, which was mentioned in the comments, and the problem setters replied to the comment stating it was the same approach (therefore also correct).
+
+FEEDBACK #13: Also, is there a way to start a new conversation with bot without refreshing the page? i can't seem to find the option to start discussion abt a new problem.
+
+FEEDBACK #13: Here, it would have been better if the steps (1-4) were omitted from the second response, since they were already stated earlier. Instead, directly the last statement "Since a1 < an allows you to..." would have sufficed.
+
+FEEDBACK #18: In some cases (i think the cases where I have already provided the correct question-editorial pair previously), the bot does not complain when I give an incorrect editorial link to a problem (I had given the correct editorial link in past). It then proceeds to explain the editorial of the question correctly. Is this an intended feature? Then maybe it can simply skip asking the editorial anyway when it does not require it.
+
+FEEDBACK #19: test
+
+FEEDBACK #67753: It gives me "There was something wrong with the link. Could you paste it again?", despite giving it a valid link
+
+FEEDBACK #85873: This is amazing, I told it about my approach and it guided me using the editorial and told me about the special case I was missing!
+
+FEEDBACK #52409: incase when editorial is not uploaded, it just keeps asking for the correct link
+
+FEEDBACK #50477: amazing work
+
+FEEDBACK #10008: The hints were helpful but technically wrong - in this problem, n = 2^p and not 2^(p+1) as the bot claims (this is not mentioned in the editorial either)
+
+FEEDBACK #27080: It seems like the bot is using parts of a less efficient solution mentioned in the editorial instead of providing accurate hints. It does not appear to be describing the full solution to the problem as the hints are misleading.
+
+FEEDBACK #90497: it is not accepting the editorial. this is a pretty large flaw.
+
+FEEDBACK #27974: The editorial had multiple different solutions, however  the bot only provided one. It seemed to do this because that was the solution that most aligned with my initial idea, but I'm not sure if this is intended?
+
+FEEDBACK #54901: the latex broke here
+

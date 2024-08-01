@@ -1,0 +1,10 @@
+Let $$$And(l, r)$$$ denotes the bitwise and of the elements in subarray $$$[L, R]$$$ in the array and $$$Xor(l, r)$$$ denotes the bitwise xor of the elements in subarray $$$[L, R]$$$ in the array.
+If subarray $$$[L, R]$$$ length is odd then it can't be a good subarray because $$$And(l, r)$$$ is a submask of $$$Xor(l, r)$$$ since every bit in $$$And(l, r)$$$ occurs odd times so it will be set in $$$Xor(l, r)$$$.
+If subarray $$$[L, r]$$$ length is even then every bit in $$$And(l, r)$$$ will be unset in $$$Xor(l, r)$$$ so we only care about the most significant bit in $$$And(l, r)$$$.
+Let's solve for every bit $$$k$$$, Let's call bit $$$m$$$ important bit if $$$m > k$$$. For every $$$r$$$ in the array, We need to find the minimum $$$l$$$ such that $$$[l, r]$$$ is even, $$$k$$$ is set in $$$And(l, r)$$$ and all the important bits are unset in $$$Xor(l, r)$$$.
+Since we only care about the important bits, We can make a prefix array where $$$pref_i$$$ is the prefix xor till the index $$$i$$$ considering only the important bits.
+So for every $$$r$$$, we need to find the minimum $$$l$$$ that satisfy these conditions:
+$$$1$$$ - $$$r-l+1$$$ is even.
+$$$2$$$ - $$$k$$$ is set in all elements in subarray $$$[l, r]$$$.
+$$$3$$$ - $$$pref_r$$$ xor $$$pref_{l-1}$$$ $$$= 0$$$. 
+which can be solved easily in $$$O(NlogN)$$$.

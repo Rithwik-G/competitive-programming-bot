@@ -1,0 +1,5 @@
+Let's come up with a naive solution — we could go from left to right and multiply the element at index $$$i$$$ by $$$2$$$ until it is greater than or equal to the previous element. But this solution will take a long time, as the numbers can become on the order of $$$2^n$$$ during the operations.
+Let's not explicitly multiply our numbers by $$$2$$$, but represent each element as the product $$$a_i \cdot 2^{x_i}$$$, where $$$x_i$$$ is the power to which we multiplied. Let's say we have calculated the value of $$$x_{i - 1}$$$, and now we want to calculate $$$x_i$$$. We have two cases:
+ If $$$a_{i - 1} \leq a_i$$$: Then we can say that $$$x_i = x_{i - 1}$$$ and subtract $$$1$$$ until $$$x_i > 0$$$ and $$$a_{i - 1} \cdot 2 \leq a_i$$$.
+ If $$$a_{i - 1} > a_i$$$: Then we can say that $$$x_i = x_{i - 1}$$$ and add $$$1$$$ until $$$a_i \cdot 2 < a_{i - 1}$$$. 
+Note that we do not want to change the values of the array $$$a$$$ to avoid getting large numbers later, so we use additional variables for this.

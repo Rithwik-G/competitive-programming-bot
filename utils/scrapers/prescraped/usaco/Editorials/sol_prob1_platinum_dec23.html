@@ -1,0 +1,151 @@
+In all solutions, the overall time complexity will be $Q$ times the time
+complexity to answer a single query.
+First, let $I$ be the set of infected cows and let $T$ be the number of nights
+in a given query. We first analyze whether or not $I$ is even a valid
+configuration. Note that a cow $v$ can start out infected if and only if the set
+$B_T(v) = \{u \colon d(u, v) \leq T\}$ is  contained entirely in $I$. Let $S$ be
+the set of cows that can start out infected. Then, $I$ is a valid configuration
+if and only if $I = \bigcup_{v\in S} B_T(v)$. Furthermore, when $I$ is a valid
+configuration, we want to find the smallest possible subset $S'\subseteq S$ 
+such that $\bigcup_{v\in S'} B_T(v) = I$.
+To compute the set $S$, we need to know the shortest distance from each cow to
+its closest non-infected cow. This can be done in $O(N)$ time by starting a
+multisource BFS from all non-infected cows.
+Subtask 1 ($N = 10$):
+For this case, we can just brute force through all subsets $S'$ of $S$. For each
+$v\in S'$, we can do a BFS to find $B_T(v)$, and check if the resulting sets
+cover $I$. This takes $O(2^N \cdot N^2)$ time per query.
+Brandon's code:
+
+Subtask 2 (all cows infected):
+We can answer each query in $O(N)$ time using a greedy strategy. First, some
+definitions: 
+"Choosing" a cow means that we set it to be initially infected.A cow is "covered" if it is within a distance $T$ of some chosen cow.
+Our goal in this subtask is to choose the minimum number of cows so that all
+cows are covered.
+Root the tree at any cow (the solution code roots the tree at the first cow). 
+The following greedy procedure covers all the cows in $c$'s subtree at a
+distance at least $T$ away from $c$:
+Recursively apply the procedure to the subtrees of $c$'s children.Compute the distance from $c$ to its farthest uncovered descendant
+(guaranteed to be at most $T$).If the distance in step 2 is exactly $T$, choose cow $c$. Now, all cows in
+$c$'s subtree are covered.Special case: If $c$ is the root and there is an uncovered descendant of
+$c$, choose $c$.Return the distance from $c$ to its farthest uncovered descendant if such a
+descendant exists (such a descendant will later be covered by some cow outside
+of $c$'s subtree), or otherwise the distance from $c$ to its closest chosen
+descendant (this descendant has the potential to cover cows outside of $c$'s
+subtree).
+In addition, this procedure constructs an optimal solution because 
+If the distance from step 2 is less than $T$, and $c$ is not the root of the
+tree, it is always at least as good to choose the parent of $c$ instead of $c$,
+since choosing the parent of $c$ will cover all the uncovered cows inside of
+$c$'s subtree and more cows outside of $c$'s subtree. Thus, we should not choose
+$c$.If the distance from step 2 is exactly $T$ and we have already fixed which
+cows to choose in each of the child subtrees, then cow $c$ is the only cow that
+can cover the uncovered descendant, so we must choose $c$.
+Ben's code:
+
+Subtask 3 ($N\leq 400$) Solution 1 (DP):
+Our approach for the remaining subtasks will be to use a tree-dp type approach. 
+As in the subtask 2 solution, root the tree arbitrarily. Unfortunately, just
+making the DP state "min # of originally infected cows to cover subtree of $v$" 
+does not provide enough info, because we can cover infected nodes in a subtree
+via starting cows outside the subtree.
+Instead, for each $0 \leq t \leq T$, we store the following:
+ The min number of nodes we need to pick in the subtree such that all
+infected cows with distance $\ge t$ from the subtree root are covered, and  The min number of nodes we need to pick in the subtree such that all
+infected cows are covered, plus our coverage extends distance $t$ outside the
+tree as well.
+We can compute each of these in $O(\# \text{children})$ time given the
+children's DP states,  so this takes a total of $O(TN)$ per query. Since
+$T\leq N$, this takes $O(N^2)$, which runs in time.
+Subtask 3 Solution 2 (Greedy):
+We will describe an algorithm where initially we start with no chosen cows,  and
+we greedily choose cows in $S$ until every infected cow is covered. 
+Define $U$ to be the set of nodes that have not been covered yet. Root the tree
+arbitrarily and consider the highest depth infected cow $c \in U$, where depth
+is defined as distance from the root. 
+Let $S_c$ be all elements of $S$ that are distance within $T$ of $c$. Clearly,
+we must choose some element $s \in S_c$.
+We claim that we can greedily choose the lowest depth node $s' \in S_c$. 
+Consider some other node $s \in S_c$. For our greedy to be correct, it suffices
+to show that for all nodes $u \in U$, if $s$ covers $u$, then $s'$ also covers
+$u$.
+This is easy to prove if $s$ and $s'$ are both ancestors of $c$. Now, suppose
+one of them is not an ancestor of $c$. Define $l = lca(c, s)$ and
+$l' = lca(c, s')$. Notice that $s$ covers all uncovered nodes $u \in U$ that are
+also in the subtree rooted at $l$ because $c$ is the highest depth uncovered
+node, and similarly $s'$ covers all uncovered nodes in the subtree rooted at
+$l'$. From this, one can prove that $s$ covers the same uncovered nodes as the
+unique node with the same depth as $s$ which is also an ancestor of $c$.
+Combining this with the proof for the case where $s$ and $s'$ are both ancestors
+of $c$, the greedy is proven.
+So, the algorithm is to repeatedly find the highest depth node $c$ that has not
+been covered, and choose the lowest depth node in $S_c$ to cover it. This can be
+done naively in $O(N^2)$ per query (though on most test cases, it runs much
+faster than this worst-case bound would suggest).
+Richard's code: 
+
+Full Solution 1:
+We will answer each query in $O(N)$. This solution follows from  generalizing
+the subtask 2 greedy solution or removing unnecessary states from the subtask 3
+DP solution (it turns out that we need to keep at most two states for each
+subtree). For a node $v$, let $closest_S(v)$ denote the distance from $v$ to its
+closest node in
+$S$.
+For any vertex $v$, let $I_v$ be the set of infected cows in $v$'s subtree, and
+let $S_v$ be the set of source cows in $v$'s subtree. In addition, let $I_v'$ be
+the set of infected cows in $v$'s subtree that are distance greater than
+$T-closest_S(parent_v)$ away from $parent_v$. When all cows are infected, $I_v'$
+is precisely the set of all cows in $v$'s subtree distance at least $T$ away
+from $v$.  Observe that every node in $I_v'$ must be covered by some node
+inside $v$'s subtree, and every node in $I_v\setminus I_v'$ would be covered by
+choosing the closest cow to $parent_v$. Intuitively, $I_v\setminus I_v'$ is the
+set of all cows in $v$'s subtree that might be covered by some node outside of
+$v$'s subtree (though they might instead be covered by some node inside $v$'s
+subtree).
+Let $f(v)$ be the smallest number of nodes in $S_v$ we need to pick so that
+every node in $I_v'$ is covered. Clearly $f(v) \geq \sum_{u\in C_v} f(u)$. In
+fact the following is also true:
+Lemma: $f(v) \leq 1 + \sum_{u\in C_v} f(u)$.
+Proof: We will show that all of $I_v$ can be covered by at most
+$1 + \sum_{u\in C_v} f(u)$ source nodes (one of which need not be in $v$'s
+subtree). Choosing all of these source nodes (excluding any outside of $v$'s
+subtree) would cover $I_v'$.
+Suppose that, in each subtree, we pick $f(u)$ sources in $S_u$ that cover
+$I_u'$, and also we are in the best possible DP state (states are defined in the
+solution above). Here, "every infected node in $u$'s subtree is covered, as is
+everything distance $T$ outside of $u$" is the best case, followed by "every
+infected node in $u$'s subtree is covered, as is everything distance $T-1$
+outside of $u$", etc.,  and then "every infected node $u$'s subtree is covered,
+but nothing outside the subtree is" is better than  "every infected node in
+$u$'s subtree is covered except $u$", which is better than "the deepest
+uncovered infected node is at depth 1", which is better than "the deepest
+uncovered infected node is at depth 2", etc.
+Now, suppose $u_1, \ldots, u_k$ are the children such that
+$I_{u_1}, \ldots, I_{u_k}$ are not fully covered. Suppose their deepest
+uncovered children are at depth $d_1, \ldots, d_k$, respectively with respect to
+$v$.  Without loss of generality suppose $d_1 = \max(d_1, \ldots, d_k)$. By
+assumption,  there exists some source node $w$ such that
+$d(w, parent_{u_1})=d(w,v) \leq T - d_1$. Then, $d(w, v) \leq T-d_i$ for every
+$i$, so adding $w$ to the set of sources covers all of $I_v$. This completes the
+proof (note that $w$ covers $v$ if needed also). $\Box$
+Since the answer to the query is just $f(\text{root})$, we just need to figure
+out when the difference $f(v) - \sum_{u\in C_v} f(u)$ is $0$ or $1$. To do this,
+when computing the DP, we additionally store what the "best case" is. We can do
+this in $O(\#\text{children})$ for each node with some preprocessing. Then, the
+difference is one precisely when there is an uncovered node in $I_v'$, in which
+case we can choose the closest node in $S$ to $v$. This newly chosen node is
+guaranteed to cover all uncovered nodes in $I_v$ (any nodes in $v$'s subtree not
+covered by this new node are part of $I_c'$ for some child $c$ of $v$, which
+should have been covered already). Note that due to our earlier observation
+about $I_v'$, this node will be in $v$'s subtree.
+Ben's code:
+
+Full Solution 2:
+We can use centroid decomposition in 
+the subtask 3 greedy solution to answer queries in $O(N\log{N})$.
+Specifically, using centroid decomposition, we can do the following tasks.
+In $O(N\log N)$ time, for every node $v$, find the minimum depth node  $s$
+within distance $T$ of $v$ satisfying $s \in S$.In $O(\log N)$ time, mark a node as chosen.In $O(\log N)$ time, compute the distance from a node to its nearest chosen
+node.
+We leave the details as an exercise to the reader.

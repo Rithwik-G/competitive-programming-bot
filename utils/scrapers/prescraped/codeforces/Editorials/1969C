@@ -1,0 +1,6 @@
+Idea: BledDest
+**Tutorial**
+The small values of $$$k$$$ leads to the idea that expected solution is dynamic programming. In fact, we can actually design a dynamic programming solution.
+Let $$$dp_{i, j}$$$ be the minimum sum, if we considered the first $$$i$$$ elements and already done $$$j$$$ operations. Note that, we can turn a segment of length $$$d+1$$$ into a minimum on it using $$$d$$$ operations. So the transitions can be done by iterating over the length of the next segment (denote it as $$$d$$$) and we can update $$$dp_{i + d + 1, j + d}$$$ with $$$dp_{i, j} + (d + 1) \cdot x$$$, where $$$x$$$ is the minimum among $$$a_i, a_{i + 1}, \dots, a_{i + d - 1}$$$ (that can be maintained in a single variable during iteration over $$$d$$$).
+There are $$$O(nk)$$$ states in the dynamic programming and $$$O(k)$$$ transitions from each of them, so the solution works in $$$O(nk^2)$$$.
+**Solution (Neon)**

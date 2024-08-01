@@ -1,0 +1,24 @@
+Idea: Atomic-Jellyfish, zimpha Solution: Atomic-Jellyfish Prepared by: Atomic-Jellyfish, errorgorn, MagicalFlower
+**Hint 1**
+If $$$s, t$$$ both have $$$*$$$, or both don't have $$$*$$$, then it will be a simple problem. Can you try to solve this problem?
+**Hint 2**
+According to the first hint, we have discussed two cases. In the remaining cases, without loss of generality, we think that only $$$t$$$ has $$$*$$$. Suppose we write $$$t$$$ as $$$t'_0*t'_1*t'_2* \dots*t'_k$$$. Where $$$t'_i$$$ does not take $$$*$$$, assuming that $$$|t'_i| \leq 50$$$ is satisfied for all $$$i$$$, can you solve this problem?
+**Hint 3**
+There is a strictly subproblem of this problem, namely, given two strings $$$s$$$ and $$$t$$$ consisting only of characters from $$$a$$$ to $$$z$$$ and $$$-$$$, you need to find all positions in $$$s$$$ where $$$t$$$ can be matched.
+This problem has a classic solution, where $$$-$$$ is set to $$$0$$$, and $$$a$$$ to $$$z$$$ are sequentially assigned values from $$$1$$$ to $$$26$$$, and then let $$$f_i = \sum_{j=1}^m [s_{i +j-1} > 0] \times [t_j > 0] (s_{i+j-1}-t_j)^2$$$, then all positions of $$$f_i = 0$$$ satisfy $$$s[i, i + m -1]$$$ can match $t$​.
+Decompose the calculation formula, $$$f_i = \sum_{j=1}^m s_{i+j-1}^2+s_j^2 - 2\sum_{j=1}^m s_{i+j -1}{t_j} - \sum_{j=1}^m [s_{i+j-1} = 0] t_j^2 - \sum_{j=1}^m s_{i+j-1}^ 2[t_j=0]$$$. For $$$\sum_{j=1}^m s_{i+j-1}^2+s_j^2$$$, you can prefix and process it, and for the remaining part, you can use FFT in $$$O(n \log n )$$$ to be resolved.
+What is the use of this solution in the original problem?
+**Solution**
+Read the hints.
+In the following, we consider $$$n, m$$$ to be of the same order.
+Consider the case where $$$s$$$ and $$$t$$$ do not contain $$$*$$$. We only need to be compared bit by bit.
+Consider the case where $$$s, t$$$ both contain $$$*$$$, if the beginning of $$$s$$$ is not $$$*$$$ or the beginning of $$$t$$$ is not $$$*$$$:
+If one of the first characters of $$$s$$$ and $$$t$$$ is $$$*$$$ or the first characters can match, delete the first characters of the two strings that are not $$$*$$$.
+Oherwise the answer is obviously .
+Performing the same operation on the last characters, it is not difficult to find that it will be reduced to two strings $$$*s’$$$ and $$$t'*$$$, where $$$s'$$$ and $$$t'$$$ are arbitrary strings. Then it is not difficult to find that $$$t's'$$$ matches two strings at the same time. Therefore, as long as the head and tail can be successfully deleted, the answer must be .
+Consider the hardest case. Without loss of generality, we assume that only $$$t$$$ contains $$$*$$$, otherwise $$$s, t$$$ can be exchanged. We still delete the beginning and the end first. It is not difficult to find that thereafter $$$t$$$ can be written as $$$*t'_1*t'_2*\dots*t'_k *$$$.
+Then we will have a greedy solution. We iterate $$$i$$$ from $$$1$$$ to $$$n$$$, find the first matching position of $$$t'_i$$$ in $$$s$$$ each time, and delete tthese matching characters and all preceding characters in $$$s$$$, that is, remove a prefix of $$$s$$$, and then until all matching is completed or no matching position is found in $$$s$$$.
+Assume that we use FFT to brute force solve this problem every time. See Hint.3 for the specific solution, then the complexity is $$$O(nk \log n)$$$.
+But it is not difficult to find that this is very wasteful. In fact, we can do this:
+When matching $$$t'_i$$$, only take out the first $$$|2t'_i|$$$ characters of $$$s$$$ each time and try to match $$$t'_i$$$. Because if the match is successful, then since all positions matching $$$t'_i$$$ are deleted, it is not difficult to find that at least $$$|t'_i|$$$ characters are deleted. And if the match fails, it is not difficult to find that the first $$$|t'_i|$$$ characters of $$$s$$$ will no longer be useful and can also be deleted. Therefore we remove at least the first $$$|t'_i|$$$ characters in $$$s$$$ in complexity $$$O(|t'_i| \log |t'_i|)$$$.
+Since the total length of $$$s$$$ is $$$n$$$, the total time complexity does not exceed $$$O(n \log n)$$$.

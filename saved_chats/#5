@@ -1,0 +1,134 @@
+USER: https://codeforces.com/problemset/problem/1975/G
+
+BOT: Thanks! Now could you provide a link to the editorial.
+
+
+
+USER: https://codeforces.com/blog/entry/129801
+
+BOT: Would you like hints to help you solve the problem or an interactive explanation of the editorial (hint/editorial)? 
+
+
+
+USER: editorial
+
+BOT: Idea: Atomic-Jellyfish, zimpha Solution: Atomic-Jellyfish Prepared by: Atomic-Jellyfish, errorgorn, MagicalFlower
+**Hint 1**
+If $$$s, t$$$ both have $$$*$$$, or both don't have $$$*$$$, then it will be a simple problem. Can you try to solve this problem?
+**Hint 2**
+According to the first hint, we have discussed two cases. In the remaining cases, without loss of generality, we think that only $$$t$$$ has $$$*$$$. Suppose we write $$$t$$$ as $$$t'_0*t'_1*t'_2* \dots*t'_k$$$. Where $$$t'_i$$$ does not take $$$*$$$, assuming that $$$|t'_i| \leq 50$$$ is satisfied for all $$$i$$$, can you solve this problem?
+**Hint 3**
+There is a strictly subproblem of this problem, namely, given two strings $$$s$$$ and $$$t$$$ consisting only of characters from $$$a$$$ to $$$z$$$ and $$$-$$$, you need to find all positions in $$$s$$$ where $$$t$$$ can be matched.
+This problem has a classic solution, where $$$-$$$ is set to $$$0$$$, and $$$a$$$ to $$$z$$$ are sequentially assigned values from $$$1$$$ to $$$26$$$, and then let $$$f_i = \sum_{j=1}^m [s_{i +j-1} > 0] \times [t_j > 0] (s_{i+j-1}-t_j)^2$$$, then all positions of $$$f_i = 0$$$ satisfy $$$s[i, i + m -1]$$$ can match $t$​.
+Decompose the calculation formula, $$$f_i = \sum_{j=1}^m s_{i+j-1}^2+s_j^2 - 2\sum_{j=1}^m s_{i+j -1}{t_j} - \sum_{j=1}^m [s_{i+j-1} = 0] t_j^2 - \sum_{j=1}^m s_{i+j-1}^ 2[t_j=0]$$$. For $$$\sum_{j=1}^m s_{i+j-1}^2+s_j^2$$$, you can prefix and process it, and for the remaining part, you can use FFT in $$$O(n \log n )$$$ to be resolved.
+What is the use of this solution in the original problem?
+**Solution**
+Read the hints.
+In the following, we consider $$$n, m$$$ to be of the same order.
+Consider the case where $$$s$$$ and $$$t$$$ do not contain $$$*$$$. We only need to be compared bit by bit.
+Consider the case where $$$s, t$$$ both contain $$$*$$$, if the beginning of $$$s$$$ is not $$$*$$$ or the beginning of $$$t$$$ is not $$$*$$$:
+If one of the first characters of $$$s$$$ and $$$t$$$ is $$$*$$$ or the first characters can match, delete the first characters of the two strings that are not $$$*$$$.
+Oherwise the answer is obviously .
+Performing the same operation on the last characters, it is not difficult to find that it will be reduced to two strings $$$*s’$$$ and $$$t'*$$$, where $$$s'$$$ and $$$t'$$$ are arbitrary strings. Then it is not difficult to find that $$$t's'$$$ matches two strings at the same time. Therefore, as long as the head and tail can be successfully deleted, the answer must be .
+Consider the hardest case. Without loss of generality, we assume that only $$$t$$$ contains $$$*$$$, otherwise $$$s, t$$$ can be exchanged. We still delete the beginning and the end first. It is not difficult to find that thereafter $$$t$$$ can be written as $$$*t'_1*t'_2*\dots*t'_k *$$$.
+Then we will have a greedy solution. We iterate $$$i$$$ from $$$1$$$ to $$$n$$$, find the first matching position of $$$t'_i$$$ in $$$s$$$ each time, and delete tthese matching characters and all preceding characters in $$$s$$$, that is, remove a prefix of $$$s$$$, and then until all matching is completed or no matching position is found in $$$s$$$.
+Assume that we use FFT to brute force solve this problem every time. See Hint.3 for the specific solution, then the complexity is $$$O(nk \log n)$$$.
+But it is not difficult to find that this is very wasteful. In fact, we can do this:
+When matching $$$t'_i$$$, only take out the first $$$|2t'_i|$$$ characters of $$$s$$$ each time and try to match $$$t'_i$$$. Because if the match is successful, then since all positions matching $$$t'_i$$$ are deleted, it is not difficult to find that at least $$$|t'_i|$$$ characters are deleted. And if the match fails, it is not difficult to find that the first $$$|t'_i|$$$ characters of $$$s$$$ will no longer be useful and can also be deleted. Therefore we remove at least the first $$$|t'_i|$$$ characters in $$$s$$$ in complexity $$$O(|t'_i| \log |t'_i|)$$$.
+Since the total length of $$$s$$$ is $$$n$$$, the total time complexity does not exceed $$$O(n \log n)$$$.
+
+Let me know if you have any questions.
+
+
+
+USER: Can you explain Hint 3?
+
+BOT: Hint 3 addresses a subproblem where you need to find all positions in string `s` where string `t` can match, considering that both strings consist only of lowercase English letters and the special character `-`. The `-` character can be replaced by any letter, making it a wildcard. The hint suggests a method to solve this using a mathematical approach. First, assign values to the characters: `a` to `z` are assigned values from `1` to `26`, and `-` is assigned a value of `0`. Then, define a function `f_i` that calculates the sum of squared differences between the corresponding characters of `s` and `t` over a sliding window of length `m` (the length of `t`). If `f_i` equals `0` for a given position `i`, it means that `t` can match `s` starting at position `i`.
+
+The formula for `f_i` is decomposed into several parts, involving prefix sums and Fast Fourier Transform (FFT) to efficiently compute the necessary convolutions. The key idea is to break down the problem into manageable pieces that can be computed in `O(n log n)` time complexity. This approach leverages the properties of the FFT to handle the convolution operations efficiently, making it feasible to solve the problem even for large strings. The result of this subproblem can be used in the original problem to determine where the segments of `t` can match within `s`, facilitating the overall matching process.
+
+
+
+USER: Can you explain how the formula for f_i is decomposed?
+
+BOT: The formula for $ f_i $ is decomposed to efficiently calculate the sum of squared differences between corresponding characters of $ s $ and $ t $ over a sliding window of length $ m $. The original formula is:
+
+\[ f_i = \sum_{j=1}^m [s_{i+j-1} > 0] \times [t_j > 0] (s_{i+j-1} - t_j)^2 \]
+
+This can be expanded and simplified into several components:
+
+\[ f_i = \sum_{j=1}^m s_{i+j-1}^2 + \sum_{j=1}^m t_j^2 - 2 \sum_{j=1}^m s_{i+j-1} t_j - \sum_{j=1}^m [s_{i+j-1} = 0] t_j^2 - \sum_{j=1}^m s_{i+j-1}^2 [t_j = 0] \]
+
+Here's how each term is handled:
+1. **Sum of Squares**: $\sum_{j=1}^m s_{i+j-1}^2 + \sum_{j=1}^m t_j^2$ can be precomputed using prefix sums, which allows these sums to be calculated in constant time for any window.
+2. **Cross Term**: $-2 \sum_{j=1}^m s_{i+j-1} t_j$ is handled using convolution, which can be efficiently computed using the Fast Fourier Transform (FFT). This term represents the dot product of the two sequences and is the most computationally intensive part.
+3. **Zero Handling Terms**: $- \sum_{j=1}^m [s_{i+j-1} = 0] t_j^2 - \sum_{j=1}^m s_{i+j-1}^2 [t_j = 0]$ account for positions where either $ s $ or $ t $ has a zero (representing the wildcard `-`). These terms can also be precomputed or handled using additional prefix sums.
+
+By decomposing the formula in this way, the problem is reduced to manageable parts that can be computed efficiently, leveraging prefix sums and FFT to handle the convolution operations. This decomposition allows the overall complexity to remain within $ O(n \log n) $, making it feasible for large inputs.
+
+
+
+USER: Where does the s_j ^ 2 come from?
+
+BOT: The term $ s_j^2 $ appears to be a typographical error in the editorial. The correct term should be $ t_j^2 $. The correct decomposition of the formula for $ f_i $ should include the squared values of the characters in $ t $, not $ s $. Here's the corrected breakdown:
+
+The formula for $ f_i $ is:
+
+\[ f_i = \sum_{j=1}^m [s_{i+j-1} > 0] \times [t_j > 0] (s_{i+j-1} - t_j)^2 \]
+
+Expanding this, we get:
+
+\[ f_i = \sum_{j=1}^m s_{i+j-1}^2 + \sum_{j=1}^m t_j^2 - 2 \sum_{j=1}^m s_{i+j-1} t_j - \sum_{j=1}^m [s_{i+j-1} = 0] t_j^2 - \sum_{j=1}^m s_{i+j-1}^2 [t_j = 0] \]
+
+Here's the explanation for each term:
+1. **Sum of Squares**: $\sum_{j=1}^m s_{i+j-1}^2 + \sum_{j=1}^m t_j^2$ represents the sum of the squares of the characters in the current window of $ s $ and the entire string $ t $. These can be precomputed using prefix sums, allowing quick calculation for any window.
+2. **Cross Term**: $-2 \sum_{j=1}^m s_{i+j-1} t_j$ is the dot product of the current window of $ s $ and $ t $, which can be efficiently computed using convolution via the Fast Fourier Transform (FFT).
+3. **Zero Handling Terms**: $- \sum_{j=1}^m [s_{i+j-1} = 0] t_j^2 - \sum_{j=1}^m s_{i+j-1}^2 [t_j = 0]$ account for positions where either $ s $ or $ t $ has a zero (representing the wildcard `-`). These terms ensure that the wildcard positions are correctly handled in the computation.
+
+By correctly identifying and precomputing these components, the overall complexity remains $ O(n \log n) $, making it efficient for large inputs.
+
+
+
+USER: Does the full solution require fft?
+
+BOT: The full solution does not necessarily require the use of FFT (Fast Fourier Transform), although it can be used to optimize certain parts of the problem, particularly in the subproblem described in Hint 3. The primary goal of using FFT in Hint 3 is to efficiently compute the convolution needed to find matching positions of $ t $ within $ s $ when both strings consist of lowercase English letters and the special character `-`.
+
+However, the overall solution to the problem can be approached using a greedy algorithm without relying on FFT. The editorial suggests a method where you iteratively match segments of $ t $ (split by `*`) within $ s $. This involves:
+1. Removing matching prefixes and suffixes from both $ s $ and $ t $.
+2. Iteratively finding and removing segments $ t'_i $ within $ s $ using a greedy approach. For each segment $ t'_i $, you only need to consider the first $ 2|t'_i| $ characters of $ s $ to find a match. If a match is found, remove the matched segment and preceding characters from $ s $; if not, remove the first $ |t'_i| $ characters from $ s $.
+
+This greedy approach ensures that the solution remains efficient, with a time complexity of $ O(n \log n) $ due to the repeated matching and removal of segments. While FFT can optimize the matching process, especially for large inputs, it is not strictly necessary for the full solution. The greedy method alone can solve the problem effectively by leveraging the structure of the strings and the properties of the wildcard characters.
+
+
+
+USER: What does the editorial mean by matching the first |2 * t_i| characters of s with t_i?
+
+BOT: The editorial's suggestion to match the first $ |2 \cdot t'_i| $ characters of $ s $ with $ t'_i $ is a strategy to efficiently find the first occurrence of the segment $ t'_i $ within $ s $. Here, $ t'_i $ is a segment of $ t $ that does not include any `*` characters, and $ |t'_i| $ denotes its length.
+
+The idea is based on the observation that if $ t'_i $ is to match a substring within $ s $, the match must occur within the first $ |2 \cdot t'_i| $ characters of $ s $. This is because if a match exists, it will be found within this range; otherwise, the first $ |t'_i| $ characters of $ s $ can be safely skipped. This approach ensures that you either find a match and remove the prefix up to the match, or you determine that the first $ |t'_i| $ characters cannot contribute to a match and discard them. This reduces the problem size iteratively and ensures that the algorithm progresses efficiently.
+
+By limiting the search to the first $ |2 \cdot t'_i| $ characters, the algorithm avoids unnecessary comparisons beyond this range, thus optimizing the matching process. This approach ensures that each segment $ t'_i $ is matched in $ O(|t'_i| \log |t'_i|) $ time, leveraging the properties of the strings and the structure of the problem to maintain an overall time complexity of $ O(n \log n) $.
+
+
+
+USER: How can you find if such a match exists?
+
+BOT: To determine if a match for $ t'_i $ exists within the first $ |2 \cdot t'_i| $ characters of $ s $, you can use a sliding window approach. This involves checking each possible starting position within the first $ |2 \cdot t'_i| $ characters of $ s $ to see if the substring starting at that position matches $ t'_i $. Here's how you can do it:
+
+1. **Sliding Window**: Iterate through each possible starting position $ j $ in $ s $ from $ 0 $ to $ |2 \cdot t'_i| - |t'_i| $. For each starting position $ j $, compare the substring $ s[j:j+|t'_i|] $ with $ t'_i $. This involves checking each character in the substring against the corresponding character in $ t'_i $.
+2. **Wildcard Handling**: During the comparison, account for the `-` character in $ s $, which can match any character in $ t'_i $. If all characters match (considering `-` as a wildcard), then a match is found.
+
+If a match is found at any position within the sliding window, you can conclude that $ t'_i $ matches a substring of $ s $ starting at that position. You then remove the matched segment and all preceding characters from $ s $, effectively reducing the problem size. If no match is found within the first $ |2 \cdot t'_i| $ characters, you can safely discard the first $ |t'_i| $ characters of $ s $ and continue the process with the remaining part of $ s $. This ensures that the algorithm progresses efficiently by either finding a match or reducing the search space iteratively.
+
+
+
+USER: doesn't this take |t_i|^2 time?
+
+BOT: Yes, the naive sliding window approach described would indeed take $ O(|t'_i|^2) $ time in the worst case. This is because for each of the $ |2 \cdot t'_i| - |t'_i| $ possible starting positions in $ s $, you would need to compare up to $ |t'_i| $ characters, leading to a quadratic time complexity.
+
+To improve this, you can use more efficient string matching algorithms such as the Knuth-Morris-Pratt (KMP) algorithm or the Z-algorithm, which can find all occurrences of a pattern $ t'_i $ in a text $ s $ in linear time, $ O(|s| + |t'_i|) $. These algorithms preprocess the pattern $ t'_i $ to create a partial match table (for KMP) or a Z-array (for the Z-algorithm), which allows the pattern to be matched against the text in a single pass.
+
+By applying these more efficient algorithms, you can reduce the time complexity of finding $ t'_i $ within the first $ |2 \cdot t'_i| $ characters of $ s $ to $ O(|2 \cdot t'_i| + |t'_i|) = O(|t'_i|) $. This ensures that each segment $ t'_i $ is matched efficiently, contributing to the overall time complexity of $ O(n \log n) $ for the entire solution. This optimization leverages advanced string matching techniques to handle the potentially large input sizes more effectively.
+
+
+

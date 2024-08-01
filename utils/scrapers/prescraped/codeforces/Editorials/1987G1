@@ -1,0 +1,49 @@
+**Hints**
+**Tutorial (by errorgorn)**
+Consider that the edges are directed from $$$i \to l_i$$$ or $$$i \to r_i$$$ respectively. So that edges point from vertices with smaller values to vertices with larger values. That is $$$a \to b$$$ implies that $$$p_a < p_b$$$.
+Notice that by definition, every vertex must have only $$$1$$$ edge that is going out of it. Therefore, if we consider the diameter to be something like $$$v_1 \to v_2 \to v_3 \to \ldots \to v_k \leftarrow \ldots \leftarrow v_{d-1} \leftarrow v_{d}$$$, since it is impossible for there to be some $$$\leftarrow v_i \to$$$ since each vertex has exactly one edge going out of it.
+Therefore, it makes that we can split the path into 2 distinct parts: - $$$v_1 \to v_2 \to v_3 \to \ldots \to v_k$$$ - $$$v_d \to v_{d-1} \to \ldots \to v_{k}$$$
+I claim that I can choose some $$$m$$$ such that the path $$$v_1 \to v_2 \to v_3 \to \ldots \to v_{k-1}$$$ and $$$v_d \to v_{d-1} \to \ldots \to v_{k+1}$$$ are in the range $$$[1,m]$$$ and $$$[m+1,n]$$$ or vice versa. That we are able to cut the array into half and each path will stay on their side.
+
+The red line shown above is the cutting line, as described. Proof is at the bottom under Proof 1 for completeness.
+Now, we want to use this idea to make a meet in the middle solutions where we merge max stacks from both sides. Specifically: - maintain a max stack of elements as we are sweeping from $$$i=1\ldots n$$$. - for each element on the max stack, maintain the maximum size of a path that is rooted on that element.
+Here is an example with $$$p=[4,1,5,3,2,6]$$$
+$$$i=1$$$: $$$s=[(4,1)]$$$
+$$$i=2$$$: $$$s=[(4,2),(1,1)]$$$
+$$$i=3$$$: $$$s=[(5,3)]$$$
+$$$i=4$$$: $$$s=[(5,3),(3,1)]$$$
+$$$i=5$$$: $$$s=[(5,3),(3,2),(2,1)]$$$
+$$$i=6$$$: $$$s=[(6,4)]$$$
+When we insert a new element $$$x$$$, we pop all $$$(p_i,val)$$$ with $$$p_i < p_x$$$ and add in $$$(x,\max(val)+1)$$$ into the stack. Now, all elements of the stack has to updated with $$$s_{i,1} := \max(s_{i,1},s_{i+1,1}+1)$$$, which is really updating a suffix of $$$s_{*,1}$$$ with $$$val+k,\ldots,val+1,val$$$. 
+Firstly, it is clear that the $$$2$$$ vertices we merge, should have the biggest $$$p_i$$$ value, since a bigger $$$p_i$$$ value implies a bigger path size.
+What we care about is the biggest path size possible only using vertices on $$$[1,i]$$$, which we denote array $$$best$$$. In the above example, $$$best = [1,2,3,3,4]$$$. We really only care about obtaining the array $$$best$$$ and not $$$s$$$. We can find this array in $$$O(n \log n)$$$ using segment trees or even in $$$O(n)$$$.
+However, we cannot directly take the biggest values on each side. Consider $$$p=[2,1\mid,3,4]$$$. On the left and right side, the max stacks are $$$[2,1]$$$ and $$$[4,3]$$$ respectively, but we cannot connect $$$2$$$ with $$$4$$$ since the $$$3$$$ is blocking the $$$2$$$.
+Suppose $$$a_1,a_2,\ldots,a_s$$$ are the prefix maximums while $$$b_1,b_2,\ldots,b_t$$$ are the suffix maximums.
+Then, if the dividing line is at $$$a_i \leq m < a_{i+1}$$$, we will merge $$$a_i$$$ on the left side with $$$a_{i+1}$$$ on the right side. Similarly, if the dividing line is at $$$b_i \leq m < b_{i+1}$$$, we will merge $$$b_i$$$ on the left side with $$$b_{i+1}$$$ on the right side.
+So, if $$$a_i \leq m < a_{i+1}$$$, it is equivalent to merging the best path on $$$[1,m]$$$ and $$$(m,a_{i+1})$$$ since then $$$a_{i+1}$$$ will be the root of the best path on the right side. It is similar for $$$b_i \leq m < b_{i+1}$$$.
+Actually, we can prove that instead of $$$(m,a_{i+1})$$$, $$$(m,a_{i})$$$ is enough, and the proof is left as an exercise.
+The total complexity becomes $$$O(n \log n)$$$ or $$$O(n)$$$ depending on how quickly array $$$best$$$ is found for subarrays.
+
+Suppose that there are 2 paths $$$a_1 \to a_2 \to \ldots \to a_s$$$ and $$$b_1 \to b_2 \to \ldots \to b_t$$$, $$$a_1 < b_1$$$, and $$$a_s = b_t$$$ but they do not intersect at any vertices other vertices. Then we will prove that there is no such case where $$$a_s' > b_t'$$$.
+Suppose that it is true that we can find some $$$a_{s'} > b_{t'}$$$.
+Let $$$(s',t')$$$ be the minimum counterexample so that $$$a_{s'} > b_{t'}$$$ but $$$a_{s'-1}<b_{t}$$$. Therefore, we have $$$a_{s'-1} < b_t < a_{s'}$$$. By definition, that $$$r_{a_{s'-1}} = a_{s'}$$$, we have $$$p_{b_t} < p_{a_{s'-1}}$$$.
+Then, $$$a_s$$$ cannot be in between $$$a_{s'-1}$$$ and $$$a_{s'}$$$ or else $$$r_{a_{s'-1}} = a_{s} \neq a_{s'}$$$. But, then we need to find a path from $$$b_{t'}$$$ to $$$b_{t}=a_{s}$$$ which does not touch either $$$a_{s'-1}$$$ or $$$a_{s'}$$$ which is impossible.
+**Solution**
+**Feedback**
+Good problem 
+
+    
+
+
+
+Average problem 
+
+    
+
+
+
+Bad problem 
+
+    
+
+

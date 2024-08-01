@@ -1,0 +1,50 @@
+ SilverTongue1729 JadeReaper: SilverTongue1729 JadeReaper TheRaja 
+**Hint 1**
+For what values of $$$j$$$ is $$$C(i,j) \bmod j = 0$$$?
+**Hint 2**
+For all other values of $$$j$$$, how can you precompute the result?
+**Hint 3**
+To precompute, switch around the loop order.
+**Solution**
+The number of distinct ways you can select $$$k$$$ distinct numbers from the set {$$$1, 2, \ldots, i$$$} and arrange them in a line is $$$i(i-1)\cdots(i-k+1)$$$, and since arranging in a circle introduces rotational symmetry we have to divide by $$$k$$$, so we have $$$C(i,k) = \frac{i(i-1)\cdots(i-k+1)}{k}$$$.
+Therefore $$$C(i,j) \bmod j = \frac{i(i-1)\cdots(i-j+1)}{j} \bmod j$$$. Now since the numerator is a product of $$$j$$$ consecutive integers, atleast one of them will be divisible by $$$j$$$. More precisely the exact integer which will be divisible by $$$j$$$ will be $$$ j \times \lfloor \frac{i}{j} \rfloor$$$. Hence we can simplify the fraction by removing the denominator and replacing the term $$$ j \times \lfloor \frac{i}{j} \rfloor$$$ with $$$\lfloor \frac{i}{j} \rfloor$$$ in the numerator. Each of the other $$$j-1$$$ integers in the numerator, after applying $$$\bmod j$$$ would cover all integers from $$$1$$$ to $$$j-1$$$. Hence
+$$$C(i,j) \bmod j = \frac{i(i-1)\cdots(i-j+1)}{j} \bmod j = \left( (j-1)! \times \left\lfloor \frac{i}{j} \right\rfloor \right) \bmod j$$$
+Here we can notice that all proper factors of $$$j$$$ will occur in $$$(j-1)!$$$, so based on this we can tell that $$$C(i,j) \bmod j = 0$$$ for all composite numbers $$$j$$$ except $$$j=4$$$.
+We first can handle the case of $$$j$$$ being prime. Using Wilson's Theorem, we know that $$$(j-1)! \equiv -1 \bmod j$$$ when $$$j$$$ is prime. Hence
+$$$C(i,j) \bmod j = - \left\lfloor \frac{i}{j} \right\rfloor$$$
+Now we can reverse the order of loops to sum over all primes, and to calculate the contribution of each prime we can maintain a update array called $$$delta$$$.
+To calculate the contribution for a single prime $$$p$$$, we know that for all $$$n$$$ from $$$kp$$$ to $$$(k + 1)p - 1$$$ (for all $$$k$$$ such that $$$kp < 1e6$$$) the contribution would be $$$-k$$$. So, in the $$$delta$$$ array, we increment index $$$kp$$$ with $$$-k \bmod p$$$ and decrement index $$$(k + 1)p$$$ with $$$-k \mod p$$$. Now, when we perform a prefix sum on this $$$delta$$$ array, we obtain the correct contributions from all primes.
+For the case of $$$j=4$$$, we just need to handle it as a prime.
+**Rate this problem**
+
+
+
+
+
+
+
+ Great Problem
+
+
+
+
+
+
+
+ Ok Problem
+
+
+
+
+
+
+
+ Bad Problem
+
+
+
+
+
+
+
+ Didn't solve

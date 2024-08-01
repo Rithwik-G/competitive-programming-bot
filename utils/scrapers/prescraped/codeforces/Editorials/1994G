@@ -1,0 +1,11 @@
+**Hint 1**
+Think of the most stupid solution you can do
+**Hint 2**
+Do memorization and some cuts
+**Hint 3**
+Done!
+**Editorial**
+We will do recursion. Let's go from the lower bits to the significant bits. 
+$$$rec(i, sum)$$$ means that the first $$$i$$$ bits are selected, the sum of them divided by $$$2^i$$$ equals $$$sum$$$, and the first $$$i$$$ bits match the ones we need. Let $$$cnt_i$$$ — the number of ones in the numbers in the $$$i$$$-th bit. Then we can go from state $$$(i, sum)$$$ to $$$(i + 1, \lfloor \frac{sum + cnt_i}{2} \rfloor)$$$ and $$$(i + 1, \lfloor \frac{sum + n - cnt_i}{2} \rfloor)$$$ if the lowest bit matches the $$$i$$$-th bit in $$$s$$$. There are at most $$$nk$$$ states in such a recursion (proof below). Thus, if we do the memoization, the solution will run $$$O(nk)$$$.
+Proof:
+$$$sum$$$ is always at most $$$n$$$. At the beginning of the recursion, $$$sum = 0$$$, so the inequality is satisfied. When we go to the next step $$$\frac{sum + cnt_i}{2}$$$, $$$\frac{sum + n - cnt_i}{2} \leq \frac{n + n}{2} = n$$$, which was required to prove.

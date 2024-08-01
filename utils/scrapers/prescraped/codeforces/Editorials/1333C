@@ -1,0 +1,10 @@
+Let's solve this problem in $$$O(n^2 \times log (n))$$$for now.
+Note that if the subarray $$$[a_i,..., a_j]$$$ is good, then the subarray $$$[a_i,..., a_{j-1}]$$$ is also good, and if the subset $$$[a_i,..., a_j]$$$ is not good, then the subarray $$$[a_i,..., a_{j+1}]$$$ is not good either. Then for each left border $$$a_i$$$ we want to find the rightmost border $$$a_j$$$ such that $$$[a_i,..., a_j]$$$ is good and add to the answer $$$j - i + 1$$$ (subarrays $$$[a_i, ..., a_j], [a_i, ..., a_{j-1}], ..., [a_i]$$$) [1]. Let's denote the rightmost border $$$j$$$ for border $$$i$$$ as $$$R (i)$$$.
+Let's calculate the prefix-sum of the array $$$P$$$.
+$$$P_0 = 0, P_i = a_1 + .. + a_i, 1 \le i \le n$$$.
+Note that a subset of $$$[a_i,..., a_j]$$$ has a zero sum iff $$$P_{i-1} = P_j$$$. Then the subset $$$[a_i,..., a_j]$$$ is a good iff sum of prefixes $$$[P_{i-1},..., P_j]$$$ has no duplicates [2].
+Using [1] and [2], we can simply iterate over $$$i$$$ from $$$0$$$ to $$$n$$$ and over $$$j$$$ from $$$i$$$ to $$$n$$$ and count the set of prefix sums $$$[P_i,..., P_j]$$$. The first moment $$$j_0$$$ when this set contains duplicates gives us the rightmost border $$$j_0-1$$$, and we add $$$(j_0-1) - i$$$ (no $$$+1$$$, because it is an array of prefix sums) to answer.
+To improve this solution to $$$O (n \times log(n))$$$, we need to note that $$$R(i)$$$ is monotonous over $$$i$$$. Now we can iterate over $$$i$$$ from $$$0$$$ to $$$n$$$ and over $$$j$$$ from $$$R (i-1)$$$ to $$$n$$$ uses a set of prefix sums from the previous iteration. Thus we have a solution $$$O (n \times log(n))$$$, because $$$j$$$ points to each element of the array exactly once.
+If you code in C++, it is important not to use std:: unordered_set in this task, but use std::set. One of the participants hacked the solution using std:: unordered_set, using collisions in this structure. I highly recommend you to read this blog for more info https://codeforces.com/blog/entry/62393.
+Final time complexity: $$$O(n \times log(n))$$$
+**Solution C++**

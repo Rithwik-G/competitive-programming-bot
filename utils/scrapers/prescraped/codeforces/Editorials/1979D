@@ -1,0 +1,6 @@
+**Solution**
+Let's consider the block of characters at the end. Notice that their quantity cannot decrease. Let $$$x$$$ be the number of identical characters at the end; there are three possible cases:
+$$$x = k$$$ — it is enough to find any block of length greater than $$$k$$$ and separate a block of length $$$k$$$ from it;
+$$$x > k$$$ — obviously, there is no solution;
+$$$x < k$$$ — find a block of length $$$k - x$$$ or $$$2k - x$$$ and separate a block of length $$$k - x$$$ from it.
+This solution works in $$$O(n)$$$, but it is not the only correct one. Your solution may differ significantly from the one proposed.

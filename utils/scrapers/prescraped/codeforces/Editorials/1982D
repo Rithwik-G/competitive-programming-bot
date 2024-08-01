@@ -1,0 +1,15 @@
+**Hint 1**
+How does the difference between heights change if we choose a specific submatrix?
+**Hint 2**
+It is worth reducing the problem to a mathematical construction. Maybe something from number theory can help?
+**Tutorial**
+First, let's calculate the current difference between the heights of different types of mountains, denoted as $$$D$$$.
+Then, for each submatrix of size $$$k \times k$$$, we will calculate how the difference in the sums of heights of different types of mountains changes. That is, for each submatrix, we will calculate the difference in the number of zeros and ones in it, let these values be $$$d_{i}$$$ and there will be $$$q = (n - k + 1) \cdot (m - k + 1)$$$. This can be done using two-dimensional prefix sums or a "sliding window".
+After that, formally we can write the following equation:
+$$$$$$ c_{1} \cdot d_{1} + c_{2} \cdot d_{2} + \dots + c_{q} \cdot d_{q} = D$$$$$$
+, where $$$c_{1}$$$, $$$c_{2}$$$, ..., $$$c_{q}$$$ — are constants $$$c$$$ that Nikita chose for a specific submatrix ($$$0$$$ if we did not transform using this submatrix). This is very similar to a Diophantine equation, in fact, it is, but with $$$q$$$ unknowns.
+What can be said about the existence of a solution to this equation in integers? For this, it is sufficient that 
+$$$$$$D \bmod gcd(d_{1}, d_{2}, \dots, d_{q}) = 0$$$$$$
+It is worth mentioning that it is necessary to carefully handle the case when all $$$d_{i} = 0$$$, and also not to forget about the case when $$$D$$$ is initially equal to $$$0$$$.
+In total, the solution is in $$$O(n \cdot m + \log A)$$$
+**Solution (FelixArg)**

@@ -1,0 +1,24 @@
+USER: https://codeforces.com/problemset/problem/1994/G
+
+BOT: Thanks! Now could you provide a link to the editorial.
+
+
+
+USER: https://codeforces.com/blog/entry/131666
+
+BOT: Would you like hints to help you solve the problem or an interactive explanation of the editorial (hint/editorial)? 
+
+
+
+USER: hint
+
+BOT: What are you current thoughts on the problem? 
+
+
+
+USER: Not really sure what to do
+
+BOT: To start, think about how you can approach the problem recursively by examining the bits of the numbers in the array. Consider how you can represent the state of your recursion based on the bits you're currently analyzing and the sum you want to achieve. Would you like a more detailed hint on how to structure this recursion?
+
+
+

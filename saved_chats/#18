@@ -1,0 +1,16 @@
+USER: https://codeforces.com/contest/1375/problem/C
+
+BOT: Thanks! Now could you provide a link to the editorial.
+
+
+
+USER: https://codeforces.com/blog/entry/130839
+
+BOT: Would you like hints to help you solve the problem or an interactive explanation of the editorial (hint/editorial)? 
+
+
+
+FEEDBACK: In some cases (i think the cases where I have already provided the correct question-editorial pair previously), the bot does not complain when I give an incorrect editorial link to a problem (I had given the correct editorial link in past). It then proceeds to explain the editorial of the question correctly. Is this an intended feature? Then maybe it can simply skip asking the editorial anyway when it does not require it.
+
+
+

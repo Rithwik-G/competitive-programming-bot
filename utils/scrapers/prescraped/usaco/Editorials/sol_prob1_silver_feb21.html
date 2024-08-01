@@ -1,0 +1,29 @@
+Whenever there exists a cow horizontally or vertically adjacent to three other
+cows,  Farmer Nhoj is forced to place a cow at the fourth spot.
+
+So this is essentially a flood fill problem; while there exists a location that
+should contain a cow but does not, add a cow at that location.
+My solution maintains a 2D boolean array of which locations currently contain
+cows, as well as a queue of locations in the pasture where a cow needs to be
+added. While the queue is nonempty, pop the top element $(x,y)$ of the queue and
+check whether a cow has already been added at $(x,y)$. If not, add the cow at
+$(x,y)$, and check whether any of the locations
+$(x,y),(x,y-1),(x,y+1),(x-1,y),(x+1,y)$ contain cows and are adjacent to exactly
+three cows. If so, add all such locations to the queue and repeat.
+Additional notes:
+The cows that will eventually be present on the pasture after the first $i$
+cows are added is a superset of the cows that will eventually be present on the
+pasture after the first $i-1$ cows are added. 
+This means that we don't need to reset the array between the addition of
+each cow.If all cells in $[0,1000]\times [0,1000]$ are initially occupied, Farmer
+Nhoj will need to add cows at all locations $(x,y)$ satisfying 
+$x+y\ge 0,x+y\le 2000,x-y\le 1000,x-y\ge -1000$ (in other words, a diamond with
+vertices at $(-500,500), (500,-500), (1500,500),$ and $(500,1500)$). So if we
+increase the $x$ and $y$ cow locations by $500$, then all of these locations
+will lie in the range $[0,2000]\times [0,2000]$. 
+In my solution, I use $1000$ instead of
+$500$.
+Time Complexity: $\mathcal{O}(N+(\text{grid size})^2)$.
+
+Here is an alternative solution by Danny Mittal that does not use a queue:
+

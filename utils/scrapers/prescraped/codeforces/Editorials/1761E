@@ -1,0 +1,17 @@
+
+Try to figure out the conditions where a task can be solved with $$$1$$$ operation. Then $$$2$$$ operations, and then even more operations.
+
+The answer could be larger than $$$2$$$ only when the graph is made up of $$$2$$$ cliques, where you could only perform the operations on every vertex in the smaller clique to get the minimum number of operations.
+
+First of all, we need to check if the graph is already connected at the beginning. If so, the answer would be $$$0$$$.
+Otherwise, there will be more than $$$1$$$ connected component. If there exists a vertex that is the only vertex required to be operated to make the graph connected, we call such a vertex "feasible vertex". We may find out that a feasible vertex can only appear in a connected component that is not a clique.
+But actually, there will always be such a vertex in a non-clique component. To prove this, we may figure out the sufficient condition for being a feasible vertex first.
+The sufficient condition is that, if a vertex is not a cut vertex, and it is not adjacent to all other vertices in the connected component, then it must be a feasible vertex. We can prove that such a vertex always exists in a non-clique component. Here is the proof: 
+ Firstly, if there exist  vertices that are adjacent to all other vertices in the component, we . Apparently, the remaining component would still be a non-clique component. Otherwise, the component could only be a clique from the beginning, which contradicts the premise.
+ Apparently, the remaining component would still be a non-clique component. Otherwise, the component could only be a clique from the beginning, which contradicts the premise.
+ Then, we will find a non-cut vertex in the remaining component, since that vertices in a graph couldn't be all cut vertices. The non-cut vertex we found is the vertex we are searching for. 
+But implementing it directly (meaning using Tarjan's algorithm to find a non-cut vertex) might not be the easiest way to solve the problem. Actually, the vertex with the least degree in a connected component always satisfy the condition. We would like to leave the proof work of the alternative method to you.
+Now we have proven that, if there exists a connected component that is not a clique, then the answer would be at most $$$1$$$. What if all connected components are cliques?
+If there are exactly $$$2$$$ connected components, then apparently we will have to operate on all vertices in a connected component. So we'll choose the smaller connected component to operate, and the answer is exactly the size of it.
+Otherwise, we can arbitrarily choose two vertices from two different connected components and operate on them. The answer is $$$2$$$.
+Note that we also need to deal with isolated vertices (meaning vertices that are not adjacent to any other vertices) separately.

@@ -1,0 +1,5 @@
+First, let's iterate through the position $$$i$$$, such that we do not place a mathematical sign between the $$$i$$$-th and $$$(i+1)$$$-th elements.
+Next, we have the following task — we have $$$n - 1$$$ numbers and we need to place a $$$+$$$ or $$$\times$$$ sign between each pair of neighboring numbers to minimize the result. There are three possible cases:
+ If there is at least one $$$0$$$, the answer is $$$0$$$. We can simply place all signs as $$$\times$$$.
+ If all numbers are $$$1$$$, the answer is $$$1$$$. We can simply place all signs as $$$\times$$$.
+ Otherwise, the answer is the sum of numbers not equal to $$$1$$$. It is not advantageous to multiply numbers greater than one with each other, and all ones can simply be multiplied by any of the neighbors.

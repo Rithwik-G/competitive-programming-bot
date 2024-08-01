@@ -1,0 +1,25 @@
+This problem was inspired by idea which was offered by my unbelievable girlfriend :)
+
+In this problem we maintain two segment trees - with maximum and with sum. After every query we recalculate these trees in  for a query. Now we only have to understand, how to answer for a query? Let's call a prefix of the array as  in the case if we surely know that it doesn't contain a king-shaman. So either the first shaman is king and we are able to answer for the query, or we call the prefix with length 1 as . Then let's repeat the following operation:
+ We call  as sum in the good prefix now. We find it using the segment tree with sums. 
+ We find the leftmost element which may be king-shaman yet. We can realise that it's the leftmost element, which doesn't lie in the  prefix (as there isn't king-shaman according the definition), which have a value at least . It can be done using segment tree with maximums, with descent. 
+ We check if this found shaman is king. If isn't, we can say that the good prefix finishes in this shaman now, because it was the leftmost shaman who might be king. 
+Every operation works in . Let's notice, that one operation increases sum in the  prefix at least by two times. So, after  operations sum in the good prefix will become more than a maximal possible number in the array, so that we will be able to finish, because we will be sure that answer will be -1. Complexity of the solution is .
+
+Let  be the prefix sums of . We're gonna introduce  and reformulate the queries using these new terms.
+ Imagine we wanna change the value at  to . Let . Then  will decrease by  whereas  will increase by . 
+ Imagine we wanna find the answer. Then it's sufficient to find any  satisfying . 
+Split  into blocks of size . Each block will be comprised of pairs  sorted by . At the same time we will maintain  array responsible for lazy additions to blocks. How does this help?
+ Let . The goal is to find the position of , decrease its value and increase values for all  within this block. It can be done in a smart way in  (actually, this can be represented as merging sorted vectors). You should also take care of the tail, i.e add  to  in  time. 
+ We're asked to find such  that . All blocks are sorted, thus we can simply apply binary search in  overall. 
+The optimal assignment is  which results into  total runtime. 
+The huge advantage of this approach is its independency from constraints on  (i.e non-negativity). Although we didn't succeed in squeezing this into TL :)
+
+Group the numbers according to their highest bits (with groups of the form  and separately for zeros). Inside each groups (no more than  of them) we maintain elements in increasing order of indexes. 
+It's easy to see that each group contains no more than two candidates for answer (since their sum is guaranteed to be greater than any of the remaining ones). This observation leads to an easy solution in  — we iterate over groups and check prefix sums for these candidates.
+There's actually further space for optimizations. Let's maintain prefix sums for our candidates — this allows us to get rid of the extra log when quering the tree. Almost everything we need at this step is to somehow process additions and deletions — change the order inside two blocks and probably recalculate prefix sums. The only thing left is to stay aware of prefix sum changes for the remaining blocks. Luckily, they can be fixed in  per block (if  then the sum increases by  and stays the same otherwise). 
+The resulting comlexity is .
+Code of the solution I — 39423519
+Code of the solution II — 39418926. Try to optimize :)
+Thank you tfg for the idea and the code of the solution III. Very good job!
+Code of the solution III — 39392321

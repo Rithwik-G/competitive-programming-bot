@@ -1,0 +1,28 @@
+
+
+**Note: The time limit for this problem is 6s, three times the default. The
+memory limit for this problem is 512MB, twice the default.**
+Bessie is a hungry cow. Each day, for dinner, if there is a haybale in the barn,
+she will eat one haybale. Farmer John does not want Bessie to starve, so some
+days he sends a delivery of haybales, which arrive in the morning (before
+dinner). In particular, on day $d_i$, Farmer John sends a delivery of $b_i$
+haybales ($1\leq d_i \leq 10^{14}$, $0\leq b_i \leq 10^9$).
+
+Process $U$ ($1\le U\le 10^5$) updates as follows: Given a pair  $(d, b)$, 
+update the number of haybales arriving on day $d$ to $b$.  After each update,
+output the sum of all days on which Bessie eats haybales modulo
+$10^9+7$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+$U$, followed by $U$ lines containing the updates.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+The sum after each update modulo $10^9+7$.
+
+SCORING:
+Input 3: $U\le 5000$Inputs 4-10: Updates only increase the number of haybales arriving on day
+$d$.Inputs 11-22: No additional constraints.
+
+
+Problem credits: Brandon Wang and Benjamin Qi
+

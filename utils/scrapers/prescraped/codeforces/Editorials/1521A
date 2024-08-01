@@ -1,0 +1,5 @@
+**Tutorial**
+There are $$$2$$$ cases:
+if $$$B = 1$$$, then the answer doesn't exist. Here we cannot get the nearly good numbers at all.
+Otherwise, we can construct the answer as $$$A + A \cdot B = A \cdot (B + 1)$$$.
+**Solution**

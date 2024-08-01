@@ -1,0 +1,1 @@
+Note that we will always be required to take a book with the number $$$n$$$. Thus, the answer can be all pairs of the form $$$(k, n)$$$, where $$$k < n$$$. We will find a pair with the maximum sum among these, and it will be the answer.

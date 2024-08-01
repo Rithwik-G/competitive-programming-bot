@@ -1,0 +1,85 @@
+Subtask 1: $U \leq 5000$
+We will compute the answer to each query in $\mathcal O(U\lg U)$, achieving an
+overall $\mathcal O(U^2\lg U)$ solution.
+For each query, first compute how many haybales Bessie actually receives on each
+day. After that, we will compute the set of days on which Bessie eats a haybales
+as a set of intervals of said days. First, sort the days. Then, maintain a stack
+of intervals, going through the days in increasing order.
+For each day $d$, let $b$ be the number of haybales Bessie receives. If day $d$
+falls within the interval on the top of the stack, then extend that interval by
+$b$. Otherwise, push a new interval $[d, d + b - 1]$ onto the stack representing
+the days on which Bessie eats the haybales she received on day $d$.
+At the end, simply go through the stack and sum the sum of integers in each
+interval.
+Subtask 2: Updates only increase the number of haybales arriving on $d$
+day
+The simplest solution for this subtask is to maintain a sorted version of the
+set of ranges described in the subtask 1 solution. Whenever an update is made,
+we add a new interval, then as long as it overlaps with some other interval,
+merge them into a single interval with the same length, maintaining the sum of
+days. This is $\mathcal O(U\lg U)$.
+However, we will also describe the following solution which is more complicated
+but sets up the full solution.
+We will answer the queries offline. Sort the days in order so that $d_k$ is the
+$k$-th day in sorted order, and construct a segment tree such that the $k$th
+leaf represents the interval $[d_k, d_{k + 1})$. We will use the segment tree to
+represent the set of intervals of days when Bessie eats. Because the queries are
+to the given days, we know that all such intervals will begin on a given day and
+therefore, when divided among the leaves of the segment tree, take up a prefix
+of each leaf.
+Each node of the segment tree will store the total sum of days on which Bessie
+eats in the interval represented by that node, as well as the number of days in
+that interval on which Bessie currently does not eat. We can handle updates
+lazily: when we receive an update for a given node, if the day $d$ falls within
+the node's interval but after the starting day of that interval, we simply query
+both of its children, but if the starting day is less than or equal to the
+node's starting day, we first check if the amount $b$ of added haybales will
+saturate the left child, in which case we can trivially update the left child's
+data and then query the right child, and in the other case we simply only query
+the left child. This allows queries to be $\mathcal O(\lg U)$ as usual.
+We now simply go through the queries, making updates to our segment tree with
+how much each query increases the number of haybales by on that day, and
+outputting the segment tree's root's value for the sum of days. The total
+runtime is again $\mathcal O(U\lg U)$.
+No further constraints
+The previously described segment tree cannot handle updates that remove
+haybales. We can handle this by making our segment tree strongly persistent and
+then applying divide and conquer.
+A strongly persistent data structure is one in which when we make updates, the
+old version of the data structure is maintained and can even have updates
+applied to that same old version. This is easily achieved for any segment tree
+by making it so that when we update a node, instead of mutating that node's
+data, we receive a new node that is updated. Whenever a node's update involves
+updating its children, it can simply have its new version point to the new
+versions of its children.
+Given our strongly persistent segment tree, we will perform divide and conquer
+on the queries. When we recursively solve for a given subsegment of queries, we
+will assume that we are also given a version of our segment tree in which the
+maximal updates have been made that could apply to the situation of any queries
+in the subsegment. That is, if our subsegment is $[l, r]$, and the amount of
+haybales Farmer John is delivering on day $d$ as of the $k$-th query is
+$b(d, k)$, we assume that we are given a segment tree where for each day $d$,
+the segment tree has been updated to include $\min_{k \in [l, r]} b(d, k)$
+haybales arriving on day $d$.
+This means that when we recurse down to a single query, the segment tree will be
+in exactly the right state to answer that query. Furthermore, we can update the
+given segment tree for the left and right halves of $[l, r]$ in an amount of
+updates to the segment tree linear in the length of $[l, r]$. To update for the
+left half, we note that days that do not occur in $[l, r]$ are already updated
+maximally, and then simply compute for each day in $[l, r]$ its amount of
+haybales before $l$ (which we can maintain in a global map), the minimum amount
+of haybales it ever has during the left half of $[l, r]$, and the minimum amount
+of haybales it ever has during the right half of $[l, r]$, then see if the third
+amount was less than the first and second amounts, in which case we need to make
+up the difference. The right half is similar.
+Because the amount of segment tree updates is linear in the total lengths of all
+subsegments considered, and the union of all subsegments counts each position in
+the list of queries $\mathcal O(\lg U)$ times, we make $\mathcal O(U\lg U)$
+segment tree updates, yielding an $\mathcal O(U\lg^2 U)$ time solution.
+Danny Mittal's Java code:
+
+Translated into C++:
+
+Note: It was also possible to fully solve this problem in
+$O(U\sqrt{U\lg U})$ time  by processing every $\sqrt{U/\lg U}$ consecutive
+queries in $O(U)$ time.

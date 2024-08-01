@@ -1,0 +1,62 @@
+Subtask 1: Try all $N!=N\cdot (N-1)\cdots 1$ possible $p$ in
+lexicographical order, and see if they can produce $h$. In Python, we can use
+itertools.permutations
+to do this easily.
+Ben's Python code:
+
+Subtask 2: If we are given the values of $p_1$ and $p_N$, we can uniquely
+determine the rest of $p$ by going through $h$ one element at a time. In
+particular, when $N>2$,
+If $p_1>p_N$, then $p_2=h_1$. It remains to determine the elements between
+$p_2$ and $p_N$.Else, $p_{N-1}=h_1$. It remains to determine the elements between $p_1$ and
+$p_{N-1}$
+and then we can process $h_2,h_3,\dots, h_{N-1}$ similarly. At the end, we
+should check if $p$ forms a permutation or not and actually produces $h$; if so,
+we update our answer. The time complexity is $O(N^3)$ per test.
+Ben's Python code:
+
+Subtask 3: Consider the process of producing $h$ from $p$. Note that the
+smallest element of $p$, $1$, will never be removed. So when two elements remain
+in $p$, one must be $1$, and $1$ will be the last element written down. Thus, we
+must have $h_{N-1}=1$, or else we can output $-1$ and exit. For the remainder of
+the problem, we will not use the last element of $h$, so we discard the last
+element of $h$ and assume that $h$ has length $N-2$ going forward.
+If the answer is not $-1$, the lexicographically minimum $p$ must satisfy
+$p_1<p_N$, or else reversing $p$ will give a lexicographically smaller
+permutation.
+Can there be more than one permutation $p$ satisfying $p_1<p_N$ that maps to the
+same $h$? If we print the mapping from $p$ to $h$  for all $p$ for small $N$
+(e.g., $N=4$) using our solution for subtask 1, we observe that all $h$ are
+distinct. So it seems true if there exists some $p$ that maps to $h$, $p$ must
+be unique up to reversal.
+
+Output:
+
+Looking at the permutations above (or from working out a few cases by hand), we
+can further observe that 
+All $N-2$ elements of $h$ must be distinct.The numbers at the ends of $p$ are precisely those two missing from
+$h$.
+Here's a way to see why these observations are true. If we perform the following
+operation $N-2$ times, we will always end up writing down a permutation of
+$p_2\dots p_{N-1}$:
+Operation: Choose to do exactly one of the following:
+Write down $p'_2$ and remove $p'_1$ from the permutation.Write down $p'_{n-1}$ and remove $p'_n$ from the permutation.
+Once we've determined the numbers at the ends of $p$, we can determine the
+remainder of $p$ in the same way as subtask 2. In fact, it turns out that as
+long as all elements of $h$ are distinct, there is some $p$ mapping to it.
+Ben's Python code:
+
+Chongtian's C++ code:
+
+Bonus:
+In this problem, we constructed a bijection (one-to-one mapping) between all
+$N!/2$  line graphs with vertex set $1\dots N$ and all $N!/2$  sequences of
+length $N-2$ consisting only of $1\dots N$ with no duplicates. More generally,
+there is a bijection between all $N^{N-2}$
+trees with vertex set
+$1\dots N$ and all $N^{N-2}$ sequences of length $N-2$  consisting only of
+$1\dots N$ (Prufer
+sequence). The mapping from trees to sequences is essentially the same as
+described in this problem; $N-2$ times, take the highest leaf, write down the
+vertex it is adjacent to, and remove the leaf. Try to figure out the reverse
+mapping (sequence to trees) on your own.

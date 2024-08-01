@@ -1,0 +1,35 @@
+
+
+Farmer John has $N$ ($2\le N\le 10^5$) cows labeled $1\dots N$, where the 
+connections between cows are described by a tree. Unfortunately, there is a
+sickness spreading throughout. 
+
+Initially, some cows start off infected. Every night, an infected cow spreads
+the sickness to their neighbors. Once a cow is infected, she stays infected.
+After some amount of nights, Farmer John realizes that there is an issue so he
+tests his cows to determine who has the sickness.  
+
+You are given $Q$ ($1\le Q\le 20$) different values for the number of nights, 
+each an integer in the range $[0,N]$.  For each number of nights, determine the
+minimum number of cows that could have  started with the illness, or that the
+number of nights is inconsistent with the given information.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+The first line contains $N$.
+
+The next line contains a bit string of length $N$, where the $i$th bit is 1  if
+the $i$th cow is infected and 0 otherwise. At least one cow is infected.
+
+The next $N-1$ lines contain the edges of the tree.
+
+Then $Q$, followed by the $Q$ values for the number of nights.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+$Q$ lines, the answers for each number of nights, or $-1$ if impossible.
+
+SCORING:
+Inputs 4-5: $N \le 10$Inputs 6-8: All cows are infected.Inputs 9-11: $N \le 400$Inputs 12-23: No additional restrictions.
+
+
+Problem credits: Suhas Nagar and Brandon Wang
+

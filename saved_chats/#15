@@ -1,0 +1,29 @@
+USER: https://codeforces.com/contest/1375/problem/C
+
+BOT: Thanks! Now could you provide a link to the editorial.
+
+
+
+USER: https://codeforces.com/blog/entry/130839
+
+BOT: Would you like hints to help you solve the problem or an interactive explanation of the editorial (hint/editorial)? 
+
+
+
+USER: editorial
+
+BOT: The answer is  iff $$$a_1 < a_n$$$. Let's find out why.
+When $$$a_1 < a_n$$$, we can repeatedly use this algorithm while the permutation contains more than one element: 
+ Find the smallest index $$$r$$$ such that $$$a_1 < a_r$$$. 
+ Choose $$$a_r$$$ and the element comes right before $$$a_r$$$ and delete the element before $$$a_r$$$. 
+ Repeat step 2 until $$$a_r$$$ is adjacent to $$$a_1$$$. 
+ Choose $$$a_1$$$ and $$$a_r$$$, and delete $$$a_r$$$. 
+When $$$a_1 > a_n$$$, we have some observations: 
+ The leftmost element is non-decreasing. That is because if we want to remove the old leftmost element $$$a_1$$$, we need to pair it with $$$a_2 > a_1$$$, and that will result in the leftmost element increasing. 
+ Likewise, we can use the same argument to show that the rightmost element is non-increasing. 
+Problem C author — Kuroni
+**Problem D**
+Let me know if you have any questions.
+
+
+

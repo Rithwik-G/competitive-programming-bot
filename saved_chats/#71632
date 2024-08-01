@@ -1,0 +1,31 @@
+USER: https://codeforces.com/problemset/problem/1521/A
+
+BOT: Thanks! Now could you provide a link to the editorial.
+
+
+
+USER: https://codeforces.com/blog/entry/90477
+
+BOT: Would you like hints to help you solve the problem or an interactive explanation of the editorial (hint/editorial)? 
+
+
+
+USER: editorial
+
+BOT: **Tutorial**
+There are $$$2$$$ cases:
+if $$$B = 1$$$, then the answer doesn't exist. Here we cannot get the nearly good numbers at all.
+Otherwise, we can construct the answer as $$$A + A \cdot B = A \cdot (B + 1)$$$.
+**Solution**
+Let me know if you have any questions.
+
+
+
+USER: test
+
+BOT: The problem requires finding three different positive integers $ x $, $ y $, and $ z $ such that exactly one of them is "good" (divisible by $ A \cdot B $), the other two are "nearly good" (divisible by $ A $), and they satisfy $ x + y = z $. The editorial outlines two cases: if $ B = 1 $, a solution is impossible because any number divisible by $ A $ would also be divisible by $ A \cdot B $, making it impossible to have "nearly good" numbers. For $ B > 1 $, the solution can be constructed as $ x = A $, $ y = A \cdot B $, and $ z = A \cdot (B + 1) $. Here, $ x $ and $ y $ are "nearly good" since they are divisible by $ A $, and $ y $ is also "good" since it is divisible by $ A \cdot B $. The sum $ x + y = A + A \cdot B = A \cdot (B + 1) = z $, ensuring $ z $ is the correct sum and is "nearly good".
+
+This approach ensures that the conditions are met: $ x $ and $ y $ are distinct, $ z $ is distinct, and only one number (in this case, $ y $) is "good" while the other two are "nearly good". The simplicity of the solution lies in leveraging the properties of multiplication and addition to construct the required numbers directly.
+
+
+

@@ -1,0 +1,13 @@
+**Hint**
+If you maintain a set of such indexes $$$i$$$ that $$$a_{i} <a_{i - 1}$$$, then can this help in any way?
+**Tutorial**
+Let's maintain a set $$$s$$$ of positions $$$i$$$ such that $$$a_{i} < a_{i - 1}$$$, and also a segment tree (or any other data structure that allows changing the value at a position and finding the minimum/maximum on a segment). Recalculating the set and the segment tree is quite simple for each change in the array $$$a$$$.
+To answer a query, let's notice a few facts:
+ If $$$s$$$ is empty, then the array $$$a$$$ is completely sorted. 
+ If $$$s$$$ is not empty, then we can find the minimum and maximum elements from this set, denote them as $$$pos_{min}$$$, $$$pos_{max}$$$. With these elements, we can easily answer queries. Similarly to the previous point, we can say that the prefix of size $$$pos_{min}$$$ and the suffix of size $$$n - 1 - pos_{max}$$$ are sorted in non-decreasing order. 
+Now, at the very least, we need to sort the segment $$$(l, r)$$$ such that $$$l \le pos_{min}$$$, $$$r > pos_{max}$$$. How can we find exactly these $$$l$$$ and $$$r$$$? First, let's find $$$l$$$. To do this, we find the minimum on the segment $$$(pos_{min} - 1, pos_{max})$$$, this value will be somewhere in the prefix of the entire array, so we need to find the position in the prefix between which elements it should be inserted. But we also know that the prefix is sorted, so we can use binary search (as in insertion sort) and find the position for this value. This position will be our $$$l$$$.
+For $$$r$$$, everything is similar, we find the maximum on the segment $$$(pos_{min} - 1, pos_{max})$$$ and also find its position in the sorted suffix.
+In conclusion, to find the answer after changing the array, we need to find the maximum/minimum positions in $$$s$$$, the maximum/minimum on the segment, and perform $$$2$$$ binary searches on the prefix and suffix. All of this works in $$$O(\log n)$$$.
+Complexity: $$$O((n + q) \cdot \log n)$$$
+It is also worth noting that some solutions with $$$O((n + q) \cdot \log^{2} n)$$$ can also fit within the time limit if they are very carefully written and use a non-recursive segment tree.
+**Solution (FelixArg)**

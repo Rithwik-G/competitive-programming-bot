@@ -1,0 +1,8 @@
+Idea: senjougaharin
+**Tutorial**
+Let's calculate the shortest paths to the finish along the vertices containing bonuses.
+We will try to reach the finish line with the chip that is closest to it, and mark it. If there is none, we lose.
+Other chips will give her extra moves.
+Find all connected components from vertices containing bonuses. Then, for each component, we find all the tokens that are not selected, located at the vertex of this component, and at the vertices adjacent to at least one vertex of this component.
+Consider the size of the connectivity component. If it is equal to $$$1$$$, then the chip located in the neighboring vertex gives $$$1$$$ an additional move. Otherwise, the chip located at the top of the component or at the neighboring vertex, as well as the selected chip, will be able to move indefinitely in turn, which gives us a victory. Otherwise, you need to count the number of extra moves and compare it with the shortest distance to the finish line.
+**Solution**
